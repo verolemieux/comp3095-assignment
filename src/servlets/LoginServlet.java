@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import recaptcha.VerifyUtils;
 
-@WebServlet("/LoginAuth")
-public class LoginAuthenticationServlet extends HttpServlet {
+@WebServlet("/Login")
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public LoginAuthenticationServlet() {
+    public LoginServlet() {
         super();
     }
 
@@ -42,7 +42,7 @@ public class LoginAuthenticationServlet extends HttpServlet {
 				request.getRequestDispatcher("login.html").include(request, response);
 			}
 		} else if("register".contentEquals(buttonAction)) {
-			request.getRequestDispatcher("Registration.html").forward(request, response);
+			request.getRequestDispatcher("registration.html").forward(request, response);
 		}	
 	}
 }
