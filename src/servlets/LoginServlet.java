@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import recaptcha.VerifyUtils;
 
-@WebServlet("/Login")
+@WebServlet("/LoginAuth")
+
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +25,7 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log("servlet called");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();	
 		String buttonAction = request.getParameter("button");
