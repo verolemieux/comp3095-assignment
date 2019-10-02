@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +16,9 @@
 		<div class="card card-3">
 			<div class="card-heading"></div>
                 <div class="card-body">
-                    <h2 class="title">Login</h2>
-                    <form action="LoginAuth" method="post">
+                    <h2 class="title">LOGIN</h2>
+                    <h4 class="error">${errorMessage}</h4>
+                    <form action="Login" method="post">
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="Username" name="username">
                         </div>

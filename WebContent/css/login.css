@@ -2,14 +2,15 @@
 
 @charset "ISO-8859-1";
 
-.g-recaptcha, .forgot-password, .title {
+.g-recaptcha, .forgot-password, .title, .error {
 	display: flex;
 	justify-content: center;
 	padding: 10px;
 }
 
-.p-white {
-	color: white;
+.p-white, .error {
+	color: #ccc;
+	padding: 10px;
 }
 
 .font-robo {

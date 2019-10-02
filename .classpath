@@ -12,5 +12,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="src/recaptcha/javax.json-api-1.0.jar"/>
 	<classpathentry kind="lib" path="src/recaptcha/javax.json-1.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/dev/apache-tomcat-8.5.45/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
