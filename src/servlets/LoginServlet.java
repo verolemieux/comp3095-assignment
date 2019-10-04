@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 				request.getRequestDispatcher("login.html").include(request, response);
 			}
 		} else if("register".contentEquals(buttonAction)) {
-			request.getRequestDispatcher("registration.html").forward(request, response);
+			request.getRequestDispatcher("registration.jsp").forward(request, response);
 		}	
 	}
 }
