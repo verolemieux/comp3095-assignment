@@ -63,7 +63,7 @@
                             <input class="input--style-3" type="password" placeholder="Confirm Password" name="confirm_password">
                         </div>
          				<div class="checkbox-div" style="display:flex;">
-                        	<input type="checkbox" class="checkbox" style="position:relative;right:30%;">
+                        	<input type="checkbox" name="agree_check" class="checkbox" style="position:relative;right:30%;">
 						    <label class="checkbox_label" for="exampleCheck1" style="position:relative;right:55%;color:white;">I agree to the terms of service</label>
 						 </div>
                         <div class="p-t-10">
