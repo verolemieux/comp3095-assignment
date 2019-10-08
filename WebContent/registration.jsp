@@ -16,7 +16,7 @@
 	   String color = (String)request.getAttribute("color"); 	
 		if(message != null){
 			if(color == "green"){%>
-				<div class="alert" style="background-color:green">
+				<div class="alert" style="background-color:green;width:30%">
 					<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 					<%
 						message = (String)request.getAttribute("statusMessage");
@@ -25,7 +25,7 @@
 				</div>
 			<%				
 			}else{%>
-				<div class="alert" style="background-color:red">
+				<div class="alert" style="background-color:red;width:30%">
 					<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 					<%
 						message = (String)request.getAttribute("statusMessage");
@@ -62,9 +62,9 @@
                         <div class="input-group">
                             <input class="input--style-3" type="password" placeholder="Confirm Password" name="confirm_password">
                         </div>
-                        <div class="form-check">
-						    <input type="checkbox" class="form-check-input" id="agree_checkbox">
-						    <label class="form-check-label" for="agree_checkbox">I agree to the terms of service</label>
+         				<div class="checkbox-div" style="display:flex;">
+                        	<input type="checkbox" class="checkbox" style="position:relative;right:30%;">
+						    <label class="checkbox_label" for="exampleCheck1" style="position:relative;right:55%;color:white;">I agree to the terms of service</label>
 						 </div>
                         <div class="p-t-10">
                             <button class="btn btn--pill btn--green" type="submit">Register</button>
