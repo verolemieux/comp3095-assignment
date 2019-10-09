@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,10 @@
 <title>Dashboard</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+	<div class="wrapper wrapper--w780">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -24,20 +29,18 @@
         <a class="nav-link" href="comingsoon4.html">Tab4</a>
       </li>
       </ul>
-      <ul style="list-style-type:none;">
-      <li style="float:left;">
-      Welcome, John!
-      </li>
-      <li>
-      <form action="Login" method="post" class="setright">&nbsp;
-      <input type="submit" name="Logout" value="Logout">
+	  <div class="name">
+	  	Welcome, John!
+	  </div>
+	  &nbsp;&nbsp;
+      <form action="Login" method="post" class="form-inline my-2 my-lg-0">
+      <input type="submit" name="Logout" value="Logout"class="btn btn-primary">
       </form>
-      </li>
-      </ul>
       </div>
 </nav>
-
+<br>
 <h2 style="text-align:center;">DASHBOARD</h2>
+<br>
 <div class="flex-horizontal">
 	<div class="box">
 		Under Construction
@@ -46,11 +49,13 @@
 		<div class="box">
 			Under Construction
 		</div>
-		<p>
+		<p><br>
 		<div class="box">
 			Under Construction
 		</div>
 	</div>
+</div>
+</div>
 </div>
 </body>
 </html>
