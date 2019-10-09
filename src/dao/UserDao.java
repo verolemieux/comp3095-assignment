@@ -14,18 +14,17 @@ public class UserDao {
 	
 	public static User user;
 	
-	public boolean isValidUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String firstname = request.getParameter("firstname");
-		String lastname = request.getParameter("lastname");
-		String address = request.getParameter("address");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String passwordConfirm = request.getParameter("confirm_password");
-		String[] params = new String[] {firstname,lastname,address,email,password,passwordConfirm};
-		String[] var_names = new String[] {"First name","Last name","Address","Email","Password","Confirm Password"}; //MADE AN ARRAY TO VALIDATE FASTER
-		String message = "";
-		String color = "";
-		boolean isValid = true;
+	
+	String firstname ;
+	String lastname = request.getParameter("lastname");		String address = request.getParameter("address");
+	String email = request.getParameter("email");
+	String password = request.getParameter("password");
+	String passwordConfirm = request.getParameter("confirm_password");
+	String[] params = new String[] {firstname,lastname,address,email,password,passwordConfirm};
+	String[] var_names = new String[] {"First name","Last name","Address","Email","Password","Confirm Password"}; //MADE AN ARRAY TO VALIDATE FASTER
+	String message = "";
+	String color = "";
+
 		
 		for(int i = 0; i<params.length;i++) {
 			if(isEmpty(params[i])) {
