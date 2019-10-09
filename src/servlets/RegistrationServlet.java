@@ -42,7 +42,7 @@ public class RegistrationServlet extends HttpServlet {
 		for(int i = 0; i<params.length;i++) {
 			if(isEmpty(params[i])) {
 				isValid = false;
-				message = var_names[i]+" cannot be empty";
+				message += "<br>"+var_names[i]+" cannot be empty";
 			}
 		}
 		/*if(isEmpty(firstname)) {
@@ -64,6 +64,10 @@ public class RegistrationServlet extends HttpServlet {
 		if(!password.equals(passwordConfirm)) {
 			isValid = false;
 			message += "<br>Your passwords don't match";
+		}
+		if(request.getParameter("agree_check") == null) {
+			isValid = false;
+			message += "<br>You must agree to our terms of service";
 		}
 		if(isValid) {
 			message += "Successfully Registered User<br>An Email has been sent to "+email+
