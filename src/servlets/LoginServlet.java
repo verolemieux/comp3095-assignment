@@ -24,12 +24,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		String buttonAction = request.getParameter("button");
-		
-		if(request.getParameter("Logout") != null)
-		{
-			log(request.getParameter("Logout").toString());
-		}
-		
+				
 		if("login".contentEquals(buttonAction)) {
 			//to be migrated to UserDao
 			String username = request.getParameter("username");

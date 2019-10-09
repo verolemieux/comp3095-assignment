@@ -3,8 +3,6 @@ package dao;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
 public class UserDao {
 	
 	public UserDao() {
@@ -21,12 +19,14 @@ public class UserDao {
 		}
 		return false;
 	}
+	
 	public boolean isEmpty(String s) {
 		if(s == null||s.trim().isEmpty()||s.equals("")) {
 			return true;
 		}
 		return false;
 	}
+	
 	public boolean isEmailValid(String email) {
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ //PATTERN FOR EMAIL VALIDATION
                 "[a-zA-Z0-9_+&*-]+)*@" + 
@@ -37,6 +37,7 @@ public class UserDao {
             return false; 
         return pat.matcher(email).matches(); //RETURNS A BOOLEAN
 	}
+	
 	public boolean isPasswordValid(String password) {
 		boolean isLengthValid = true;
 		if(password.length()<6||password.length()>12) {
@@ -49,7 +50,29 @@ public class UserDao {
 			return true;
 		}
 		return false;
-
 	}
 	
+	public boolean usernameExists(String username) {
+		if (username != null && username.length() > 0) {
+			//check if username exists in database
+			if (exists) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	public void sendResetPasswordEmail(String username) {
+		
+	}
+	
+	public boolean keyMatchesUser(String username, String key) {
+		//check if key from URL matches username's key in database
+		return true;
+	}
+	
+	public void resetPassword(String username, String password) {
+		//update database with new password
+	}
 }
