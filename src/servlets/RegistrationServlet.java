@@ -36,6 +36,21 @@ public class RegistrationServlet extends HttpServlet {
 		boolean isValid = true;	
 		UserDao user = new UserDao();
 		
+		try {
+			UserDao.connectDataBase();
+			log("Database connection succesful!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			user.readDataBase();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for(int i = 0; i<params.length;i++) {
 			if(user.isEmpty(params[i])) {
 				isValid = false;
