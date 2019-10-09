@@ -3,6 +3,8 @@ package dao;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import email.Email;
+
 public class UserDao {
 	
 	public UserDao() {
@@ -53,18 +55,22 @@ public class UserDao {
 	}
 	
 	public boolean usernameExists(String username) {
+		/*
 		if (username != null && username.length() > 0) {
 			//check if username exists in database
-			if (exists) {
+			if (true) {
 				return true;
 			}
 			return false;
 		}
 		return false;
+		*/
+		return true;
 	}
 	
 	public void sendResetPasswordEmail(String username) {
-		
+		Email email = new Email();
+		email.createResetPasswordMessageEmail(username, "Veronyque", "a1b2c3");
 	}
 	
 	public boolean keyMatchesUser(String username, String key) {

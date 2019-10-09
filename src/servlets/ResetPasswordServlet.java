@@ -18,6 +18,7 @@ public class ResetPasswordServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
 		UserDao user = new UserDao();
 		String username = request.getParameter("username");
 		String newPassword = request.getParameter("newPassword");
@@ -36,19 +37,22 @@ public class ResetPasswordServlet extends HttpServlet {
 			user.resetPassword(username, newPassword);
 			request.getRequestDispatcher("login.jsp").include(request, response);
 		}
+		*/
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserDao user = new UserDao();
 		String username = request.getParameter("username");
 		if (user.usernameExists(username)) {
-			user.sendResetPasswordEmail(username);		
+			user.sendResetPasswordEmail(username);
+			request.setAttribute("username", username);
+			request.getRequestDispatcher("login.jsp").include(request, response);
 		} else {
 			String emailErrorMessage = "Invalid Username";
 			request.setAttribute("emailErrorMessage", emailErrorMessage);
 			request.getRequestDispatcher("forgotpassword.jsp").include(request, response);
 		}
 	}
-
 }
-;
+
