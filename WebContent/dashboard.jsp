@@ -10,7 +10,7 @@
 <title>Dashboard</title>
 </head>
 <body>
-<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins" style="min-width:165px;">
 	<div class="wrapper wrapper--w780">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
