@@ -8,6 +8,14 @@
   font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
 }
 
+.checkbox{
+	position: relative;
+	right: 45%;
+}
+.checkbox_label{
+	float:right;
+	position:relative;
+}
 .row {
   display: -webkit-box;
   display: -webkit-flex;

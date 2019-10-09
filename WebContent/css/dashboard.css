@@ -2,40 +2,19 @@
 
 .setright
 {
-	float: right;
-	
+	float: right;	
 }
-
-.left {
-  position: absolute;
-  left: 0px;
-  width: 300px;
-  height: 300px;
-  padding: 10px;
+.flex-container {	
+	display: flex;
+	flex-direction: column;
 }
-
-.right {
-  float: right;
-  right: 0px;
-  width: 300px;
-  height: 300px;
-  padding: 10px;
+.flex-horizontal {
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	width: 50%;
 }
-.div-table {
-  display: table;         
-  width: auto;         
-  background-color: #eee;         
-  border: 1px solid #666666;         
-  border-spacing: 5px; /* cellspacing:poor IE support for  this */
-}
-.div-table-row {
-  display: table-row;
-  width: auto;
-  clear: both;
-}
-.div-table-col {
-  float: left; /* fix for  buggy browsers */
-  display: table-column;         
-  width: 200px;         
-  background-color: #ccc;  
+.box {
+	border: 3px solid black;
+	padding: 80px;
 }
