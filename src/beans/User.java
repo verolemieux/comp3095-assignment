@@ -6,14 +6,16 @@ public class User {
 	private String address;
 	private String email;
 	private String password;
-	
-	public User(String firstname, String lastname, String address, String email, String password) {
+	private String role;
+
+	public User(String firstname, String lastname, String address, String email, String password, String role) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;
 		this.email = email;
 		this.password = password;
+		this.role = role;
 	}	
 
 	public String getFirstname() {
@@ -50,6 +52,12 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 	
 }

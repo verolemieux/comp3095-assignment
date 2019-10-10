@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Login</title>
+<title>Forgot Password</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <link href="css/material-design-iconic-font.min.css" rel="stylesheet">
@@ -16,25 +16,15 @@
 		<div class="card card-3">
 			<div class="card-heading"></div>
                 <div class="card-body">
-                    <h2 class="title">LOGIN</h2>
-                    <h4 class="error">${errorMessage}</h4>
-                    <form action="Login" method="post">
+                    <h2 class="title">FORGOT PASSWORD</h2>
+                    <h4 class="error">${forgotPasswordMessage}</h4>
+                    <form action="Reset" method="post">
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="Username" name="username">
                         </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="password" placeholder="Password" name="password">
-                        </div>
-						<div class="g-recaptcha" name="recaptcha"
-   							data-sitekey="6LcQa7sUAAAAAMTVVLjhfdBIxpAmlDhZ-BuTvL-_">
-   						</div>
                         <div class="p-t-10 buttons-container">
-                            <button class="btn btn--pill btn--blue" name="button" value="login" type="submit">Login</button>
-                            <button class="btn btn--pill btn--blue" name="button" value="register" type="submit">Register</button>
+                            <button class="btn btn--pill btn--blue" name="button" value="sendEmail" type="submit">Send Email</button>
                         </div>
-                        <div class="forgot-password">
-							<p><a class="p-white" href="forgotpassword.jsp">Forgot your password?</a></p>
-  						</div>
                     </form>
                 </div>
             </div>
