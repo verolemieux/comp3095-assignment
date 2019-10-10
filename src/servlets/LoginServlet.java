@@ -24,8 +24,17 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		String buttonAction = request.getParameter("button");
+		
+		if(request.getParameter("Logout") != null)
+		{
+			log(request.getParameter("Logout").toString());
+			String errorMessage = "Logged out successfully.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("login.jsp").include(request, response);
+
+		}
 				
-		if("login".contentEquals(buttonAction)) {
+		else if("login".contentEquals(buttonAction)) {
 			//to be migrated to UserDao
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -33,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 			boolean valid = VerifyUtils.verify(gRecaptchaResponse);
 			//username and password will come from database
 			if ("admin@isp.net".equals(username) && "P@ssword1".equals(password) && valid) {
-				request.getRequestDispatcher("dashboard.html").forward(request, response);
+				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 			} else {
 				String errorMessage = "Invalid username and/or password";
 				request.setAttribute("errorMessage", errorMessage);
