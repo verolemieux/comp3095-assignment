@@ -17,7 +17,7 @@
 		if(message != null){
 			if(color == "green"){%>
 				<div class="alert" style="background-color:green;width:30%">
-					<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+					<span class="closebtn" style="cursor:pointer;float:right;" onclick="this.parentElement.style.display='none';">&times;</span>
 					<%
 						message = (String)request.getAttribute("statusMessage");
 			  			out.println("<span>"+message+"</span>");
@@ -26,7 +26,7 @@
 			<%				
 			}else{%>
 				<div class="alert" style="background-color:red;width:30%">
-					<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+					<span class="closebtn" style="cursor:pointer;float:right;" onclick="this.parentElement.style.display='none';">&times;</span>
 					<%
 						message = (String)request.getAttribute("statusMessage");
 			  			out.println("<span>"+message+"</span>");
