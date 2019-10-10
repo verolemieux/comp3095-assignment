@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
-    <libelement value="file://C:/Users/veron/git/comp3095-assignment.git/src/recaptcha/javax.json-api-1.0.jar" />
-    <libelement value="file://C:/Users/veron/git/comp3095-assignment.git/src/recaptcha/javax.json-1.1.4.jar" />
+    <libelement value="file://$MODULE_DIR$/../comp3095-assignment.git/src/recaptcha/javax.json-api-1.0.jar" />
+    <libelement value="file://$MODULE_DIR$/../comp3095-assignment.git/src/recaptcha/javax.json-1.1.4.jar" />
     <conelement value="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Tomcat v8.5 Server" />
     <conelement value="org.eclipse.jst.j2ee.internal.web.container" />
     <conelement value="org.eclipse.jst.j2ee.internal.module.container" />
@@ -18,24 +18,42 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="library" name="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Tomcat v8.5 Server" level="application" />
     <orderEntry type="library" name="org.eclipse.jst.j2ee.internal.web.container" level="application" />
     <orderEntry type="library" name="org.eclipse.jst.j2ee.internal.module.container" level="application" />
     <orderEntry type="library" name="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0" level="application" />
     <orderEntry type="module-library">
-      <library name="javax.json-api-1.0.jar">
+      <library>
         <CLASSES>
-          <root url="file://C:/Users/veron/git/comp3095-assignment.git/src/recaptcha/javax.json-api-1.0.jar" />
+          <root url="jar://$MODULE_DIR$/src/email/javax.mail.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="javax.json-1.1.4.jar">
+      <library>
         <CLASSES>
-          <root url="file://C:/Users/veron/git/comp3095-assignment.git/src/recaptcha/javax.json-1.1.4.jar" />
+          <root url="jar://$MODULE_DIR$/src/recaptcha/javax.json-1.1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/recaptcha/javax.json-api-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/dev/apache-tomcat-8.5.45/lib/servlet-api.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

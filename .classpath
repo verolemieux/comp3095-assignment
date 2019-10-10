@@ -10,14 +10,10 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="src/recaptcha/javax.json-api-1.0.jar"/>
-	<classpathentry kind="lib" path="src/recaptcha/javax.json-1.1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/sergi/Documents/TomCat/apache-tomcat-9.0.24/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/sergi/Desktop/mysql-connector-java-8.0.17/mysql-connector-java-8.0.17.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/dev/apache-tomcat-8.5.45/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="src/jars/javax.json-1.1.4.jar"/>
+	<classpathentry kind="lib" path="src/jars/javax.json-api-1.0.jar"/>
+	<classpathentry kind="lib" path="src/jars/javax.mail.jar"/>
+	<classpathentry kind="lib" path="src/jars/mysql-connector-java-8.0.17.jar"/>
+	<classpathentry kind="lib" path="src/jars/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
