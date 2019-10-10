@@ -10,7 +10,7 @@
 <title>Dashboard</title>
 </head>
 <body>
-<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins" style="min-width:165px;">
 	<div class="wrapper wrapper--w780">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -34,7 +34,7 @@
 	  </div>
 	  &nbsp;&nbsp;
       <form action="Login" method="post" class="form-inline my-2 my-lg-0">
-      <input type="submit" name="Logout" value="Logout"class="btn btn-primary">
+      <input type="submit" name="Logout" value="Logout" class="btn btn-primary">
       </form>
       </div>
 </nav>
