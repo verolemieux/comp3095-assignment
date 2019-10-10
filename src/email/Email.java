@@ -41,7 +41,7 @@ public class Email {
             message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(username));
             message.setSubject("Reset Your Password");
-            message.setText(messageText);
+            message.setContent(messageText, "text/html");
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -49,10 +49,18 @@ public class Email {
     }
     
     public void createResetPasswordMessageEmail(String username, String userFirstName, String key) {
-    	String messageText = "<p>Hi " + userFirstName + ",</p>"
-    			+ "<p>Please click"
-    			+ "<p><a href=\"http://localhost:8080/comp3095Assignment/resetpassword.jsp?key=" + key + "\"> here </a>"
-    			+ "to reset your password</p>";
+    	String messageText = "Hi " + userFirstName + ",<br><br>"
+    			+ "Click"
+    			+ "<a href=\"http://localhost:8080/comp3095Assignment/resetpassword.jsp?key=" + key + "\">here</a>"
+    			+ "to reset your password.<br><br>"
+    			+ "Please reply to this email with any questions.<br><br>"
+    			+ "Thank you and have a great day,<br><br>ABC Financial Institution";
     	createEmail(username, messageText);			   	
+    }
+    
+    public void createRegistrationMessageEmail(String username) {
+    	//registration email
+    	//must reference user first name, last name, email address
+    	//must include a link to login page
     }
 }
