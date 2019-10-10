@@ -36,7 +36,7 @@ public class RegistrationServlet extends HttpServlet {
 		boolean isValid = true;	
 		UserDao user = new UserDao();
 		
-		try {
+		/*try {
 			UserDao.connectDataBase();
 			log("Database connection succesful!");
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		for(int i = 0; i<params.length;i++) {
 			if(user.isEmpty(params[i])) {
@@ -78,10 +78,17 @@ public class RegistrationServlet extends HttpServlet {
 			isValid = false;
 			message += "<br>You must agree to our terms of service";
 		}
+		try {if(user.userExists(email)) {isValid = false;}}
+		catch(Exception e) {e.printStackTrace();}
 		if(isValid) {
-			message += "Successfully Registered User<br>An Email has been sent to "+email+
-					". Please check your email to verify and confirm";
-			color = "green";
+			try {
+				user.insertDB(firstname, lastname, email, "client", password);
+				message += "Successfully Registered User<br>An Email has been sent to "+email+
+						". Please check your email to verify and confirm";
+				color = "green";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}else {color="red";}
 		request.setAttribute("color", color);
 		request.setAttribute("statusMessage", message);

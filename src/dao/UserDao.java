@@ -1,13 +1,17 @@
 package dao;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 
 public class UserDao {
@@ -22,6 +26,7 @@ public class UserDao {
 	public UserDao() {
 		
 	}
+	////////////INTERACT WITH DB METHODS//////////////////////////////////////////
 	  
 	public static Connection connectDataBase() throws Exception {
 	    try {
@@ -39,12 +44,7 @@ public class UserDao {
 	
 	public void readDataBase() throws Exception {
 		try {
-			//THIS WILL LOAD THE MYSQL DRIVER
-			Class.forName("com.mysql.jdbc.Driver");
-		    // Setup the connection with the DB
-		    connect = DriverManager
-			         .getConnection("jdbc:mysql://localhost:3307/"+database+"?"
-			              + "user="+username+"&password="+password);
+			connect = connectDataBase();
 		    // CREATE STATEMENT
 		    statement = connect.createStatement();
 		    // GET RESULT OF SQL QUERY
@@ -64,6 +64,88 @@ public class UserDao {
 		 connect.close();
 	    }
 	}
+	
+	
+	public boolean userExists(String email) throws Exception {
+		boolean exists = false;
+		try {
+			connect = connectDataBase();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT email FROM users");
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while(resultSet.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					if (i > 1) {
+						if(email == resultSet.getString(i)) {
+							exists = true;
+						}
+					}
+				}
+			}
+			
+		}finally {
+			connect.close();
+		}
+		return exists;
+	}
+	
+	public boolean insertDB(String firstname, String lastname, String email, String role, String password) throws Exception {
+		boolean success = false;
+		try {
+			connect = connectDataBase();
+			statement = connect.createStatement();
+			String query = "INSERT INTO users (id, firstname, lastname, email, role, created, password)"
+							+"values(?,?,?,?,?,?,?)";
+			Calendar calendar = Calendar.getInstance();
+			Date startDate = new Date(calendar.getTime().getTime());
+			 PreparedStatement preparedStmt = connect.prepareStatement(query);
+		     preparedStmt.setString (1, generateID());
+		     preparedStmt.setString (2, firstname);
+		     preparedStmt.setString  (3, lastname);
+		     preparedStmt.setString  (4, email);
+		     preparedStmt.setString (5, "client");
+		     preparedStmt.setDate(6, startDate);
+		     preparedStmt.setString(7, password);
+		     
+		     if(preparedStmt.execute()) {success = true;}
+		     
+			
+		}finally {
+			connect.close();
+		}
+		return success;
+	}
+	
+	public String generateID() throws Exception {
+		int lastId = 0;
+		try {
+			String temp = "";
+			connect = connectDataBase();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT Max(id) FROM users");
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while(resultSet.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					if (i >= 1) {
+						temp = resultSet.getString(i);
+					}
+				}
+			}
+			lastId = Integer.parseInt(temp);
+			lastId += 1;
+		}finally {
+			connect.close();
+		}
+		return Integer.toString(lastId);
+	}
+	
+	
+	////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	public boolean hasSpecial(String s) {
 		Pattern p = Pattern.compile("[^A-Za-z0-9]");
