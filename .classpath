@@ -22,5 +22,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/dev/apache-tomcat-8.5.45/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="src/email/javax.mail.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

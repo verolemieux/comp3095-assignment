@@ -9,6 +9,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import email.Email;
 
 public class UserDao {
 	
@@ -18,11 +19,11 @@ public class UserDao {
 	private static Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
-	
+
 	public UserDao() {
-		
+
 	}
-	  
+
 	public static Connection connectDataBase() throws Exception {
 	    try {
 	      // This will load the MySQL driver, each DB has its own driver
@@ -34,9 +35,9 @@ public class UserDao {
 	      return connect;
 	    } catch (Exception e) {
 	      throw e;
-	    } 
+	    }
 	  }
-	
+
 	public void readDataBase() throws Exception {
 		try {
 			//THIS WILL LOAD THE MYSQL DRIVER
@@ -58,8 +59,8 @@ public class UserDao {
 		            System.out.print(columnValue + " " + rsmd.getColumnName(i));
 		        }
 		        System.out.println("");
-		    }		    
-			
+		    }
+
 		}finally {
 		 connect.close();
 	    }
@@ -74,12 +75,14 @@ public class UserDao {
 		}
 		return false;
 	}
+
 	public boolean isEmpty(String s) {
 		if(s == null||s.trim().isEmpty()||s.equals("")) {
 			return true;
 		}
 		return false;
 	}
+
 	public boolean isEmailValid(String email) {
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ //PATTERN FOR EMAIL VALIDATION
                 "[a-zA-Z0-9_+&*-]+)*@" + 
@@ -90,6 +93,7 @@ public class UserDao {
             return false; 
         return pat.matcher(email).matches(); //RETURNS A BOOLEAN
 	}
+
 	public boolean isPasswordValid(String password) {
 		boolean isLengthValid = true;
 		if(password.length()<6||password.length()>12) {
@@ -102,7 +106,33 @@ public class UserDao {
 			return true;
 		}
 		return false;
+	}
 
+	public boolean usernameExists(String username) {
+		/*
+		if (username != null && username.length() > 0) {
+			//check if username exists in database
+			if (true) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+		*/
+		return true;
+	}
+
+	public void sendResetPasswordEmail(String username) {
+		Email email = new Email();
+		email.createResetPasswordMessageEmail(username, "Veronyque", "a1b2c3");
 	}
 	
+	public boolean keyMatchesUser(String username, String key) {
+		//check if key from URL matches username's key in database
+		return true;
+	}
+
+	public void resetPassword(String username, String password) {
+		//update database with new password
+	}
 }
