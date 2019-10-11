@@ -13,7 +13,11 @@
 	<classpathentry kind="lib" path="src/jars/javax.json-1.1.4.jar"/>
 	<classpathentry kind="lib" path="src/jars/javax.json-api-1.0.jar"/>
 	<classpathentry kind="lib" path="src/jars/javax.mail.jar"/>
-	<classpathentry kind="lib" path="src/jars/mysql-connector-java-8.0.17.jar"/>
+	<classpathentry kind="lib" path="src/jars/mysql-connector-java-8.0.17.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="src/jars/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
