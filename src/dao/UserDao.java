@@ -3,7 +3,7 @@ package dao;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.io.Console;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -35,7 +35,7 @@ public class UserDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			// Setup the connection with the DB
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
+					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
 			return connect;
 		} catch (Exception e) {
 			throw e;
@@ -71,18 +71,24 @@ public class UserDao {
 		try {
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT email FROM users");
-			ResultSetMetaData rsmd = resultSet.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
+			//Jeremy's changes below - modified SQL statement
+			resultSet = statement.executeQuery(String.format("SELECT email FROM users WHERE email ='%s'", email));
+			if(resultSet.next())
+			{
+				exists = true;
+				System.out.println("User exists");
+			}
+			//ResultSetMetaData rsmd = resultSet.getMetaData();
+			/*int columnsNumber = rsmd.getColumnCount();
 			while (resultSet.next()) {
-				for (int i = 1; i <= columnsNumber; i++) {
-					if (i > 1) {
+				for (int i = 0; i <= columnsNumber; i++) {
+					//if (i > 1) {
 						if (email == resultSet.getString(i)) {
 							exists = true;
-						}
+						//}
 					}
 				}
-			}
+			}*/
 
 		} finally {
 			connect.close();
@@ -94,6 +100,10 @@ public class UserDao {
 			throws Exception {
 		boolean success = false;
 		try {
+			if(userExists(email))
+			{
+				return false;
+			}
 			connect = connectDataBase();
 			statement = connect.createStatement();
 			String query = "INSERT INTO users (id, firstname, lastname, email, role, created, password)"
