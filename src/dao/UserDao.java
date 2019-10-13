@@ -96,6 +96,26 @@ public class UserDao {
 		return exists;
 	}
 
+	public boolean validateUser(String email, String password) throws Exception
+	{
+		if(userExists(email))
+		{
+			try {
+				connect = connectDataBase();
+				statement = connect.createStatement();
+				//Jeremy's changes below - modified SQL statement
+				resultSet = statement.executeQuery(String.format("SELECT email, password FROM users WHERE email ='%s'", email));
+				resultSet.next();
+				if(resultSet.getString(2).equals(password))
+				{
+					return true;
+				}
+			} finally {
+				connect.close();
+			}
+		}
+		return false;
+	}
 	public boolean insertDB(String firstname, String lastname, String email, String role, String password)
 			throws Exception {
 		boolean success = false;

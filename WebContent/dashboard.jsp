@@ -30,7 +30,7 @@
       </li>
       </ul>
 	  <div class="name">
-	  	Welcome, John!
+	  	Welcome, ${name}!
 	  </div>
 	  &nbsp;&nbsp;
       <form action="Login" method="post" class="form-inline my-2 my-lg-0">
