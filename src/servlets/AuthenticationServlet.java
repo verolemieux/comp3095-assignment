@@ -38,9 +38,8 @@ public class AuthenticationServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				//set max session under inactivity for 15 minutes
 				session.setMaxInactiveInterval(60*15);
-				//User authUser = new User();
-				//session.setAttribute("authUser", arg1);
-				request.setAttribute("user", username);
+				User authUser = DBUser.getUser(request.getParameter("username").toString());
+				session.setAttribute("authUser", authUser);
 				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 			}
 			else

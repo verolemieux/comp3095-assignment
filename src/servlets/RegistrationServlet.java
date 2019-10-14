@@ -53,7 +53,15 @@ public class RegistrationServlet extends HttpServlet {
 				message += "<br>" + var_names[i] + " cannot be empty";
 			}
 		}
-
+		try {
+			if(user.userExists(email))
+			{
+				isValid = false;
+				message += "This email address is already taken.";
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		if (user.hasSpecial(firstname) || user.hasSpecial(lastname)) {
 			isValid = false;
 			message += "<br>The password must contain at least 1 special character";
@@ -83,9 +91,7 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (isValid) {
 			try {
-				log("here");
 				user.insertDB(firstname, lastname, address, email, "client", password);
-				log("Here2");
 				message += "Successfully Registered User<br>An Email has been sent to " + email
 						+ ". Please check your email to verify and confirm";
 				color = "green";

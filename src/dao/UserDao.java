@@ -34,9 +34,8 @@ public class UserDao {
 
 	public static Connection connectDataBase() throws Exception {
 		try {
-			// This will load the MySQL driver, each DB has its own driver
 			Class.forName("com.mysql.jdbc.Driver");
-			// Setup the connection with the DB
+			//connect to DB and return connection
 			connect = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
 			return connect;
@@ -47,6 +46,7 @@ public class UserDao {
 
 	public void readDataBase() throws Exception {
 		try {
+			//reads full database, is this function even needed?
 			connect = connectDataBase();
 			// CREATE STATEMENT
 			statement = connect.createStatement();
@@ -75,10 +75,12 @@ public class UserDao {
 			connect = connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery(String.format("SELECT email FROM users WHERE email ='%s'", email));
+			//if result set has a value in it, will have found the user - if not return false
 			if(resultSet.next())
 			{
 				exists = true;
 			}
+			//below isn't used kept for reference
 			//ResultSetMetaData rsmd = resultSet.getMetaData();
 			/*int columnsNumber = rsmd.getColumnCount();
 			while (resultSet.next()) {
@@ -99,9 +101,11 @@ public class UserDao {
 
 	public boolean validateUser(String email, String password) throws Exception
 	{
+		//check if user exists
 		if(userExists(email))
 		{
 			try {
+				//if user exists, check to ensure password is valid
 				connect = connectDataBase();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery(String.format("SELECT email, password FROM users WHERE email ='%s'", email));
@@ -119,11 +123,13 @@ public class UserDao {
 	}
 	public User getUser(String email) throws Exception
 	{
+		//pulls a User object from the database
 		connect = connectDataBase();
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, role FROM users WHERE email ='%s'", email));
 		resultSet.next();
 		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), resultSet.getString(6).toString());
+		//debug code to test pulling the user
 		System.out.println(authUser.getFirstname() + " " +  authUser.getLastname() + " " +  authUser.getAddress() + " " + authUser.getEmail() + " " + authUser.getPassword() + " " + authUser.getRole());
 		return authUser;
 	}
@@ -131,10 +137,6 @@ public class UserDao {
 			throws Exception {
 		boolean success = false;
 		try {
-			if(userExists(email))
-			{
-				return false;
-			}
 			connect = connectDataBase();
 			statement = connect.createStatement();
 			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, password)"

@@ -55,7 +55,7 @@ public class ResetPasswordServlet extends HttpServlet {
 				request.getRequestDispatcher("forgotpassword.jsp").include(request, response);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}

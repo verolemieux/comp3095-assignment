@@ -29,8 +29,16 @@
         <a class="nav-link" href="comingsoon4.html">Tab4</a>
       </li>
       </ul>
+
+<%  if(session.getAttribute("authUser") == null)
+	{	
+		request.setAttribute("LoggedIn", "false");
+		request.getRequestDispatcher("/Login").forward(request, response);
+		return;
+	}
+	%>
 	  <div class="name">
-	  	Welcome, ${name}!
+	  	Welcome, ${authUser.getFirstname()}!
 	  </div>
 	  &nbsp;&nbsp;
       <form action="Login" method="post" class="form-inline my-2 my-lg-0">
