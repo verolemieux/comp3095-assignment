@@ -27,7 +27,16 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
-		
+		//redirect to here if client attempts to access a page they need to be logged in for
+		if(request.getAttribute("GuestUser") != null)
+		{
+			if(request.getAttribute("GuestUser").equals("true"))
+			{
+				String errorMessage = "Please log in.";
+				request.setAttribute("errorMessage", errorMessage);
+				request.getRequestDispatcher("login.jsp").include(request, response);
+			}	
+		}
 		String buttonAction = request.getParameter("button");
 		
 		if(request.getParameter("Logout") != null)
@@ -38,9 +47,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("login.jsp").include(request, response);	
 		}	
-		else if(!"login".contentEquals(null))
-		{
-			if("login".contentEquals(buttonAction)) {
+		else if("login".contentEquals(buttonAction)) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -55,9 +62,7 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("errorMessage", errorMessage);
 				request.getRequestDispatcher("login.jsp").include(request, response);
 			}
-		}
-		}
-		
+		}	
 		else if("register".contentEquals(buttonAction)) {
 			request.getRequestDispatcher("registration.jsp").forward(request, response);
 		}	

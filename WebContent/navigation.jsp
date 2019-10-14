@@ -31,7 +31,6 @@
 	{	
 		request.setAttribute("LoggedIn", "false");
 		request.getRequestDispatcher("/Login").forward(request, response);
-		return;
 	}%>
 	  <div class="name">
 	  	Welcome, ${authUser.getFirstname()}!
