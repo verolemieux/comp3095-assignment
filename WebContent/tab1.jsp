@@ -15,7 +15,7 @@
 <%@ include file="navigation.jsp" %>
 
 <div style="text-align:center"> 
-
+<br>
 
 FUTURE ENHANCEMENT
 
