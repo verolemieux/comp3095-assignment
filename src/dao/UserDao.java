@@ -4,7 +4,17 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
+import beans.User;
+
+import java.io.Console;
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -26,22 +36,22 @@ public class UserDao {
 	public UserDao() {
 		
 	}
-	////////////INTERACT WITH DB METHODS//////////////////////////////////////////
-	  
+
+	//////////// INTERACT WITH DB METHODS//////////////////////////////////////////
+
 	public static Connection connectDataBase() throws Exception {
-	    try {
-	      // This will load the MySQL driver, each DB has its own driver
-	      Class.forName("com.mysql.jdbc.Driver");
-	      // Setup the connection with the DB
-	      connect = DriverManager
-		          .getConnection("jdbc:mysql://localhost:3307/"+database+"?"
-		              + "user="+username+"&password="+password);
-	      return connect;
-	    } catch (Exception e) {
-	      throw e;
-	    } 
-	  }
-	
+		try {
+			// This will load the MySQL driver, each DB has its own driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Setup the connection with the DB
+			connect = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
+			return connect;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 	public void readDataBase() throws Exception {
 		try {
 			connect = connectDataBase();
@@ -71,47 +81,85 @@ public class UserDao {
 		try {
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT email FROM users");
-			ResultSetMetaData rsmd = resultSet.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
-			while(resultSet.next()) {
-				for (int i = 1; i <= columnsNumber; i++) {
-					if (i > 1) {
-						if(email == resultSet.getString(i)) {
-							exists = true;
-						}
-					}
-				}
+			resultSet = statement.executeQuery(String.format("SELECT email FROM users WHERE email ='%s'", email));
+			if (resultSet.next()) {
+				exists = true;
 			}
-			
-		}finally {
+			// ResultSetMetaData rsmd = resultSet.getMetaData();
+			/*
+			 * int columnsNumber = rsmd.getColumnCount(); while (resultSet.next()) { for
+			 * (int i = 0; i <= columnsNumber; i++) { //if (i > 1) { if (email ==
+			 * resultSet.getString(i)) { exists = true; //} } } }
+			 */
+
+		} finally {
 			connect.close();
 		}
 		return exists;
 	}
-	
-	public boolean insertDB(String firstname, String lastname, String email, String role, String password) throws Exception {
+
+	public boolean validateUser(String email, String password) throws Exception {
+		if (userExists(email)) {
+			try {
+				connect = connectDataBase();
+				statement = connect.createStatement();
+				resultSet = statement
+						.executeQuery(String.format("SELECT email, password FROM users WHERE email ='%s'", email));
+				resultSet.next();
+				if (validatePassword(password, resultSet.getString(2))) { /*resultSet.getString(2).equals(password)*/
+					getUser(email);
+					return true;
+				}
+			} finally {
+				connect.close();
+			}
+		}
+		return false;
+	}
+
+	public User getUser(String email) throws Exception {
+		connect = connectDataBase();
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery(String.format(
+				"SELECT firstname, lastname, address, email, password, role FROM users WHERE email ='%s'", email));
+		resultSet.next();
+		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(),
+				resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(),
+				resultSet.getString(6).toString());
+		System.out.println(authUser.getFirstname() + " " + authUser.getLastname() + " " + authUser.getAddress() + " "
+				+ authUser.getEmail() + " " + authUser.getPassword() + " " + authUser.getRole());
+		return authUser;
+	}
+
+	public boolean insertDB(String firstname, String lastname, String address, String email, String role,
+			String password) throws Exception {
 		boolean success = false;
 		try {
+			if (userExists(email)) {
+				return false;
+			}
+			String hashedPassword = generatePassword(password);
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			String query = "INSERT INTO users (id, firstname, lastname, email, role, created, password)"
+			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, password)"
 							+"values(?,?,?,?,?,?,?)";
 			Calendar calendar = Calendar.getInstance();
 			Date startDate = new Date(calendar.getTime().getTime());
-			 PreparedStatement preparedStmt = connect.prepareStatement(query);
-		     preparedStmt.setString (1, generateID());
-		     preparedStmt.setString (2, firstname);
-		     preparedStmt.setString  (3, lastname);
-		     preparedStmt.setString  (4, email);
-		     preparedStmt.setString (5, "client");
-		     preparedStmt.setDate(6, startDate);
-		     preparedStmt.setString(7, password);
-		     
-		     if(preparedStmt.execute()) {success = true;}
-		     
-			
-		}finally {
+			PreparedStatement preparedStmt = connect.prepareStatement(query);
+			preparedStmt.setString(1, generateID());
+			preparedStmt.setString(2, firstname);
+			preparedStmt.setString(3, lastname);
+			preparedStmt.setString(4, address);
+			preparedStmt.setString(5, email);
+			preparedStmt.setString(6, "client");
+			preparedStmt.setDate(7, startDate);
+			preparedStmt.setString(8, hashedPassword);
+
+			if (preparedStmt.execute()) {
+				success = true;
+			}
+
+		} finally {
 			connect.close();
 		}
 		return success;
@@ -140,13 +188,75 @@ public class UserDao {
 		}
 		return Integer.toString(lastId);
 	}
-	
-	
-	////////////////////////////////////////////////////////////
-	
-	
-	
-	
+
+	public String generatePassword(String password) throws NoSuchAlgorithmException, InvalidKeyException {
+		String generatePasswordhash = "";
+		byte[] hash;
+		int iterations = 1000; // How many iteration of the algorithm would take to guess the hashed password
+		char[] chars = password.toCharArray(); // Transforms password to sequence of characters
+		byte[] salt = getSalt();
+
+		PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8); // Password-Based-Key-Derivative-Function
+		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1"); // Uses PBKD algorithm
+		try {
+			hash = skf.generateSecret(spec).getEncoded();
+			generatePasswordhash = iterations + ":" +toHex(salt) + ":" + toHex(hash); //It adds the iteratioms and the salt together
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return generatePasswordhash;
+	}
+	private static byte[] getSalt() throws NoSuchAlgorithmException
+    {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG"); 
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+	}
+	private static String toHex(byte[] array) throws NoSuchAlgorithmException
+    {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+        int paddingLength = (array.length * 2) - hex.length();
+        if(paddingLength > 0)
+        {
+            return String.format("%0"  +paddingLength + "d", 0) + hex;
+        }else{
+            return hex;
+        }
+	}
+
+
+	private boolean validatePassword(String password, String hashed) throws NoSuchAlgorithmException, InvalidKeySpecException{
+		String[] parts = hashed.split(":"); //It devides the hashed password into the salt and the hash
+		int iterations = Integer.parseInt(parts[0]);
+		byte[] salt = fromHex(parts[1]);
+		byte[] hash = fromHex(parts[2]);
+		PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, hash.length * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] testHash = skf.generateSecret(spec).getEncoded();
+         
+        int diff = hash.length ^ testHash.length;
+        for(int i = 0; i < hash.length && i < testHash.length; i++)
+        {
+            diff |= hash[i] ^ testHash[i];
+        }
+        return diff == 0;
+	}
+
+	private static byte[] fromHex(String hex) throws NoSuchAlgorithmException
+    {
+        byte[] bytes = new byte[hex.length() / 2];
+        for(int i = 0; i<bytes.length ;i++)
+        {
+            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
+    }
+
+////////////////////////////////////////////////////////////
+
 	public boolean hasSpecial(String s) {
 		Pattern p = Pattern.compile("[^A-Za-z0-9]");
 		Matcher m = p.matcher(s);
