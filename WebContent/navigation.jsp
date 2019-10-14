@@ -14,22 +14,22 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="comingsoon1.jsp">Tab1</span></a>
+        <a class="nav-link" href="tab1.jsp">Tab1</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="comingsoon2.jsp">Tab2</a>
+        <a class="nav-link" href="tab2.jsp">Tab2</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="comingsoon3.jsp">Tab3</a>
+        <a class="nav-link" href="tab3.jsp">Tab3</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="comingsoon4.jsp">Tab4</a>
+        <a class="nav-link" href="tab4.jsp">Tab4</a>
       </li>
       </ul>
 
 <%  if(session.getAttribute("authUser") == null)
 	{	
-		request.setAttribute("LoggedIn", "false");
+		request.setAttribute("GuestUser", "true");
 		request.getRequestDispatcher("/Login").forward(request, response);
 	}%>
 	  <div class="name">
