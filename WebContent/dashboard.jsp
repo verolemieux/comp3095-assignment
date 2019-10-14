@@ -12,40 +12,7 @@
 <body>
 <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins" style="min-width:165px;">
 	<div class="wrapper wrapper--w780">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="comingsoon1.html">Tab1</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="comingsoon2.html">Tab2</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="comingsoon3.html">Tab3</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="comingsoon4.html">Tab4</a>
-      </li>
-      </ul>
-
-<%  if(session.getAttribute("authUser") == null)
-	{	
-		request.setAttribute("LoggedIn", "false");
-		request.getRequestDispatcher("/Login").forward(request, response);
-		return;
-	}
-	%>
-	  <div class="name">
-	  	Welcome, ${authUser.getFirstname()}!
-	  </div>
-	  &nbsp;&nbsp;
-      <form action="Login" method="post" class="form-inline my-2 my-lg-0">
-      <input type="submit" name="Logout" value="Logout" class="btn btn-primary">
-      </form>
-      </div>
-</nav>
+	<%@ include file="navigation.jsp" %>
 <br>
 <h2 style="text-align:center;">DASHBOARD</h2>
 <br>
