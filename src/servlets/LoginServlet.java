@@ -27,12 +27,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
-		if(session.getAttribute("LoggedIn") == null)
-		{
-			String errorMessage = "Please log in.";
-			request.setAttribute("errorMessage", errorMessage);
-			request.getRequestDispatcher("login.jsp").include(request, response);
-		}	
+		
 		String buttonAction = request.getParameter("button");
 		
 		if(request.getParameter("Logout") != null)
