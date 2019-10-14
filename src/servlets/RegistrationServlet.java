@@ -83,7 +83,9 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (isValid) {
 			try {
-				user.insertDB(firstname, lastname, email, "client", password);
+				log("here");
+				user.insertDB(firstname, lastname, address, email, "client", password);
+				log("Here2");
 				message += "Successfully Registered User<br>An Email has been sent to " + email
 						+ ". Please check your email to verify and confirm";
 				color = "green";

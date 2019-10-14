@@ -44,14 +44,19 @@ public class ResetPasswordServlet extends HttpServlet {
 		UserDao user = new UserDao();
 		String username = request.getParameter("username");
 				
-		if (user.usernameExists(username)) {
-			user.sendResetPasswordEmail(username);
-			request.setAttribute("username", username);
-			request.setAttribute("forgotPasswordMessage", "Link has been sent to your email");
-			request.getRequestDispatcher("forgotpassword.jsp").include(request, response);
-		} else {
-			request.setAttribute("forgotPasswordMessage", "Invalid username");
-			request.getRequestDispatcher("forgotpassword.jsp").include(request, response);
+		try {
+			if (user.userExists(username)) {
+				user.sendResetPasswordEmail(username);
+				request.setAttribute("username", username);
+				request.setAttribute("forgotPasswordMessage", "Link has been sent to your email");
+				request.getRequestDispatcher("forgotpassword.jsp").include(request, response);
+			} else {
+				request.setAttribute("forgotPasswordMessage", "Invalid username");
+				request.getRequestDispatcher("forgotpassword.jsp").include(request, response);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

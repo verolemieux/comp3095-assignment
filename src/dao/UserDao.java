@@ -3,6 +3,9 @@ package dao;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import beans.User;
+
 import java.io.Console;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -71,12 +74,10 @@ public class UserDao {
 		try {
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			//Jeremy's changes below - modified SQL statement
 			resultSet = statement.executeQuery(String.format("SELECT email FROM users WHERE email ='%s'", email));
 			if(resultSet.next())
 			{
 				exists = true;
-				System.out.println("User exists");
 			}
 			//ResultSetMetaData rsmd = resultSet.getMetaData();
 			/*int columnsNumber = rsmd.getColumnCount();
@@ -103,11 +104,11 @@ public class UserDao {
 			try {
 				connect = connectDataBase();
 				statement = connect.createStatement();
-				//Jeremy's changes below - modified SQL statement
 				resultSet = statement.executeQuery(String.format("SELECT email, password FROM users WHERE email ='%s'", email));
 				resultSet.next();
 				if(resultSet.getString(2).equals(password))
 				{
+					getUser(email);
 					return true;
 				}
 			} finally {
@@ -116,7 +117,17 @@ public class UserDao {
 		}
 		return false;
 	}
-	public boolean insertDB(String firstname, String lastname, String email, String role, String password)
+	public User getUser(String email) throws Exception
+	{
+		connect = connectDataBase();
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, role FROM users WHERE email ='%s'", email));
+		resultSet.next();
+		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), resultSet.getString(6).toString());
+		System.out.println(authUser.getFirstname() + " " +  authUser.getLastname() + " " +  authUser.getAddress() + " " + authUser.getEmail() + " " + authUser.getPassword() + " " + authUser.getRole());
+		return authUser;
+	}
+	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String password)
 			throws Exception {
 		boolean success = false;
 		try {
@@ -126,18 +137,19 @@ public class UserDao {
 			}
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			String query = "INSERT INTO users (id, firstname, lastname, email, role, created, password)"
-					+ "values(?,?,?,?,?,?,?)";
+			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, password)"
+					+ "values(?,?,?,?,?,?,?,?)";
 			Calendar calendar = Calendar.getInstance();
 			Date startDate = new Date(calendar.getTime().getTime());
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
 			preparedStmt.setString(1, generateID());
 			preparedStmt.setString(2, firstname);
 			preparedStmt.setString(3, lastname);
-			preparedStmt.setString(4, email);
-			preparedStmt.setString(5, "client");
-			preparedStmt.setDate(6, startDate);
-			preparedStmt.setString(7, password);
+			preparedStmt.setString(4, address);
+			preparedStmt.setString(5, email);
+			preparedStmt.setString(6, "client");
+			preparedStmt.setDate(7, startDate);
+			preparedStmt.setString(8, password);
 
 			if (preparedStmt.execute()) {
 				success = true;
@@ -213,14 +225,6 @@ public class UserDao {
 			return true;
 		}
 		return false;
-	}
-
-	public boolean usernameExists(String username) {
-		/*
-		 * if (username != null && username.length() > 0) { //check if username exists
-		 * in database if (true) { return true; } return false; } return false;
-		 */
-		return true;
 	}
 
 	public void sendResetPasswordEmail(String username) {
