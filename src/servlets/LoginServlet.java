@@ -26,25 +26,26 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("LoggedIn") == null)
+		{
+			String errorMessage = "Please log in.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("login.jsp").include(request, response);
+		}	
 		String buttonAction = request.getParameter("button");
 		
 		if(request.getParameter("Logout") != null)
 		{
 			log(request.getParameter("Logout").toString());
-			HttpSession session = request.getSession();
 			session.invalidate();
 			String errorMessage = "Logged out successfully.";
 			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("login.jsp").include(request, response);	
-		}
-		else if(request.getParameter("LoggedIn") == "false")
+		}	
+		else if(!"login".contentEquals(null))
 		{
-			String errorMessage = "Please log in.";
-			request.setAttribute("errorMessage", errorMessage);
-			request.getRequestDispatcher("login.jsp").include(request, response);
-		}
-		
-		else if("login".contentEquals(buttonAction)) {
+			if("login".contentEquals(buttonAction)) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -59,6 +60,7 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("errorMessage", errorMessage);
 				request.getRequestDispatcher("login.jsp").include(request, response);
 			}
+		}
 		}
 		
 		else if("register".contentEquals(buttonAction)) {
