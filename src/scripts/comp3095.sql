@@ -36,6 +36,8 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `role` varchar(20) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `verificationkey` varchar(255) DEFAULT NULL,
+  `verified` boolean,
   `password` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -43,9 +45,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `lastname`, `address`, `email`, `role`, `created`, `password`) VALUES
-(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', '123 ABC St', 'admin', '2019-10-09 22:33:26', 'P@ssword1'),
-(2, 'Anjana', 'Dontknowlastname', '127 Davenport Road', 'ajana.ontime@gmail.com', 'client', '2019-10-10 04:00:00', 'Ontime12=');
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `address`, `email`, `role`, `created`, `verificationkey`, `verified`, `password`) VALUES
+(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', 'admin', '2019-10-09 22:33:26', '123abc', FALSE, 'P@ssword1'),
+(2, 'Anjana', 'Dontknowlastname', '127 Davenport Road', 'ajana.ontime@gmail.com', 'client', '2019-10-10 04:00:00', '123abc', FALSE, 'Ontime12=');
 
 --
 -- Indexes for dumped tables
