@@ -42,17 +42,26 @@ public class LoginServlet extends HttpServlet {
 		
 		if(request.getParameter("Logout") != null)
 		{
+			//if user clicks to log out
 			log(request.getParameter("Logout").toString());
 			session.invalidate();
 			String errorMessage = "Logged out successfully.";
 			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("login.jsp").include(request, response);	
 		}	
+		else if("resend".contentEquals(buttonAction))
+		{
+			//if user clicks to resend verification email
+			String errorMessage = "Verification email resent.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("login.jsp").include(request, response);
+		}
 		else if("login".contentEquals(buttonAction)) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-			boolean valid = VerifyUtils.verify(gRecaptchaResponse);
+			//String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+			request.getRequestDispatcher("Auth").include(request, response);
+			/*boolean valid = VerifyUtils.verify(gRecaptchaResponse);
 			if(valid)
 			{
 				request.getRequestDispatcher("Auth").include(request, response);
@@ -62,7 +71,7 @@ public class LoginServlet extends HttpServlet {
 				String errorMessage = "Please verify recaptcha.";
 				request.setAttribute("errorMessage", errorMessage);
 				request.getRequestDispatcher("login.jsp").include(request, response);
-			}
+			}*/
 		}	
 		else if("register".contentEquals(buttonAction)) {
 			request.getRequestDispatcher("registration.jsp").forward(request, response);

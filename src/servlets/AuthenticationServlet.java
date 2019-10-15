@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import beans.User;
 import dao.UserDao;
+import recaptcha.VerifyUtils;
 
 @WebServlet("/Auth")
 public class AuthenticationServlet extends HttpServlet {
@@ -26,11 +27,23 @@ public class AuthenticationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 		if(username == "" || password == "")
 		{
 			request.getRequestDispatcher("login.jsp").include(request, response);
 			return;
 		}
+		boolean valid = VerifyUtils.verify(gRecaptchaResponse);
+		if(!valid)
+		{
+			String errorMessage = "Please verify recaptcha.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("login.jsp").include(request, response);
+			return;
+		}
+		else
+		{
+
 		UserDao DBUser = new UserDao();
 		try {
 			if(DBUser.validateUser(username, password))
@@ -52,13 +65,17 @@ public class AuthenticationServlet extends HttpServlet {
 						DBUser.verifyEmail(authUser, key);
 						session.setAttribute("authUser", authUser);
 						session.setAttribute("LoggedIn", "true");
-						request.getRequestDispatcher("dashboard.jsp").forward(request, response);			
+						request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 					} else {
-						System.out.println("Not verified");
-						String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
-						request.setAttribute("errorMessage", errorMessage);
-						request.getRequestDispatcher("login.jsp").forward(request, response);
-					}
+                        System.out.println("Not verified");
+                        //If user isn't logged in, generates message and button to have email resent
+                        String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
+                        String errorMessage2 = String.format("<form action=\"Login\" method=\"post\"><div class=\"p-t-10 buttons-container\">\n" +
+                                "<button class=\"btn btn--pill btn--blue\" name=\"button\" value=\"resend\" type=\"submit\">Resend</button></div></form>");
+                        request.setAttribute("errorMessage", errorMessage);
+                        request.setAttribute("errorMessage2", errorMessage2);
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    }
 				}
 			}
 			else
@@ -69,6 +86,7 @@ public class AuthenticationServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
 		}
 	}
 
