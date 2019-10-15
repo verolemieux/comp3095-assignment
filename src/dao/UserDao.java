@@ -126,9 +126,11 @@ public class UserDao {
 		//pulls a User object from the database
 		connect = connectDataBase();
 		statement = connect.createStatement();
-		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, role FROM users WHERE email ='%s'", email));
+		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey, role FROM users WHERE email ='%s'", email));
 		resultSet.next();
-		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), resultSet.getString(6).toString());
+		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), Boolean.parseBoolean(resultSet.getString(6).toString()), resultSet.getString(7).toString(), resultSet.getString(8).toString());
+		// debug code
+		System.out.println(resultSet.getString(1).toString() + " " + resultSet.getString(2).toString() + " " + resultSet.getString(3).toString() + " " + resultSet.getString(4).toString() + " " + resultSet.getString(5).toString() + " " + Boolean.parseBoolean(resultSet.getString(6).toString()) + " " + resultSet.getString(7).toString() + " " + resultSet.getString(8).toString());
 		return authUser;
 	}
 	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String password)
@@ -137,8 +139,8 @@ public class UserDao {
 		try {
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, password)"
-					+ "values(?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, verificationkey, verified, password)"
+					+ "values(?,?,?,?,?,?,?,?,?,?)";
 			Calendar calendar = Calendar.getInstance();
 			Date startDate = new Date(calendar.getTime().getTime());
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
@@ -149,7 +151,9 @@ public class UserDao {
 			preparedStmt.setString(5, email);
 			preparedStmt.setString(6, "client");
 			preparedStmt.setDate(7, startDate);
-			preparedStmt.setString(8, password);
+			preparedStmt.setString(8, "abc123");
+			preparedStmt.setBoolean(9, false);
+			preparedStmt.setString(10, password);
 
 			if (preparedStmt.execute()) {
 				success = true;

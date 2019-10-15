@@ -39,9 +39,19 @@ public class AuthenticationServlet extends HttpServlet {
 				//set max session under inactivity for 15 minutes
 				session.setMaxInactiveInterval(60*15);
 				User authUser = DBUser.getUser(request.getParameter("username").toString());
-				session.setAttribute("authUser", authUser);
-				session.setAttribute("LoggedIn", "true");
-				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+				if(authUser.isVerified())
+				{
+					session.setAttribute("authUser", authUser);
+					session.setAttribute("LoggedIn", "true");
+					request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+				}
+				else
+				{
+					System.out.println("Not verified");
+					String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
+					request.setAttribute("errorMessage", errorMessage);
+					request.getRequestDispatcher("login.jsp").forward(request, response);
+				}
 			}
 			else
 			{
