@@ -44,7 +44,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `address`, `email`, `role`, `created`, `password`) VALUES
-(1, 'Admin', NULL, '123 Any St', 'admin@isp.net', NULL, '2019-10-09 22:33:26', 'P@ssword1'),
+(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', '123 ABC St', '2019-10-09 22:33:26', 'P@ssword1'),
 (2, 'Anjana', 'Dontknowlastname', '127 Davenport Road', 'ajana.ontime@gmail.com', 'client', '2019-10-10 04:00:00', 'Ontime12=');
 
 --
