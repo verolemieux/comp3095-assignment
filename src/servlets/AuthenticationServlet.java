@@ -33,7 +33,7 @@ public class AuthenticationServlet extends HttpServlet {
 		}
 		UserDao DBUser = new UserDao();
 		try {
-			if(DBUser.validateUser(request.getParameter("username").toString(), request.getParameter("password").toString()))
+			if(DBUser.validateUser(username, password))
 			{
 				HttpSession session = request.getSession();
 				//set max session under inactivity for 15 minutes
@@ -47,10 +47,18 @@ public class AuthenticationServlet extends HttpServlet {
 				}
 				else
 				{
-					System.out.println("Not verified");
-					String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
-					request.setAttribute("errorMessage", errorMessage);
-					request.getRequestDispatcher("login.jsp").forward(request, response);
+					String key = request.getParameter("key");
+					if (key != null && DBUser.keyMatchesUser(username, key)) {
+						DBUser.verifyEmail(authUser, key);
+						session.setAttribute("authUser", authUser);
+						session.setAttribute("LoggedIn", "true");
+						request.getRequestDispatcher("dashboard.jsp").forward(request, response);			
+					} else {
+						System.out.println("Not verified");
+						String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
+						request.setAttribute("errorMessage", errorMessage);
+						request.getRequestDispatcher("login.jsp").forward(request, response);
+					}
 				}
 			}
 			else

@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Calendar;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +11,7 @@ import java.io.Console;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -37,7 +39,7 @@ public class UserDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			//connect to DB and return connection
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
+					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
 			return connect;
 		} catch (Exception e) {
 			throw e;
@@ -128,12 +130,12 @@ public class UserDao {
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey, role FROM users WHERE email ='%s'", email));
 		resultSet.next();
-		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(7).toString(), resultSet.getString(8).toString());
+		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(7).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(5).toString(), resultSet.getString(8).toString());
 		// debug code
 		System.out.println(resultSet.getString(1).toString() + " " + resultSet.getString(2).toString() + " " + resultSet.getString(3).toString() + " " + resultSet.getString(4).toString() + " " + resultSet.getString(5).toString() + " " + Boolean.parseBoolean(resultSet.getString(6).toString()) + " " + resultSet.getString(7).toString() + " " + resultSet.getString(8).toString());
 		return authUser;
 	}
-	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String password)
+	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String verificationKey, String password)
 			throws Exception {
 		boolean success = false;
 		try {
@@ -151,7 +153,7 @@ public class UserDao {
 			preparedStmt.setString(5, email);
 			preparedStmt.setString(6, "client");
 			preparedStmt.setDate(7, startDate);
-			preparedStmt.setString(8, "abc123");
+			preparedStmt.setString(8, verificationKey);
 			preparedStmt.setInt(9, 0);
 			preparedStmt.setString(10, password);
 
@@ -230,18 +232,69 @@ public class UserDao {
 		}
 		return false;
 	}
+	
+	public boolean keyMatchesUser(String username, String key) throws Exception {
+		if(userExists(username))
+		{
+			try {
+				connect = connectDataBase();
+				statement = connect.createStatement();
+				resultSet = statement.executeQuery(String.format("SELECT verificationkey FROM users WHERE email ='%s'", username));
+				resultSet.next();
+				if(resultSet.getString(1).equals(key))
+				{
+					return true;
+				}
+			} finally {
+				connect.close();
+			}
+		}
+		return false;
+	}
 
-	public void sendResetPasswordEmail(String username) {
+/////////// VERIFY EMAIL ///////////
+	
+	public void sendEmailVerificationEmail(User user) {
 		Email email = new Email();
-		email.createResetPasswordMessageEmail(username, "Veronyque", "a1b2c3");
+		email.createRegistrationMessageEmail(user.getEmail(), user.getFirstname(), user.getLastname(), user.getVerificationkey());
+	}
+	
+	public boolean verifyEmail(User user, String key) throws Exception {
+		boolean success = false;
+		try {			
+			connect = connectDataBase();
+			statement = connect.createStatement();
+			String query = String.format("UPDATE users set verified=1 where email='%s'", user.getEmail());
+			PreparedStatement preparedStmt = connect.prepareStatement(query);
+			if (preparedStmt.execute()) {
+				success = true;
+			}
+		} finally {
+			connect.close();
+		}
+		return success;
+	}
+	
+/////////// RESET PASSWORD ///////////
+
+	public void sendResetPasswordEmail(User user) {
+		Email email = new Email();
+		email.createResetPasswordMessageEmail(user.getEmail(), user.getFirstname(), user.getVerificationkey());
 	}
 
-	public boolean keyMatchesUser(String username, String key) {
-		// check if key from URL matches username's key in database
-		return true;
-	}
-
-	public void resetPassword(String username, String password) {
-		// update database with new password
+	public boolean resetPassword(String username, String password) throws Exception {
+		boolean success = false;
+		try {
+			connect = connectDataBase();
+			statement = connect.createStatement();
+			String query = String.format("UPDATE users set password='%s' where email='%s'", password, username);
+			PreparedStatement preparedStmt = connect.prepareStatement(query);
+			if (preparedStmt.execute()) {
+				success = true;
+			}
+		} finally {
+			connect.close();
+		}
+		return success;
 	}
 }

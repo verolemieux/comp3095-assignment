@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +32,7 @@ public class RegistrationServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String passwordConfirm = request.getParameter("confirm_password");
+		String verificationKey = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
 		String[] params = new String[] { firstname, lastname, address, email, password, passwordConfirm };
 		String[] var_names = new String[] { "First name", "Last name", "Address", "Email", "Password",
 				"Confirm Password" }; // MADE AN ARRAY TO VALIDATE FASTER
@@ -64,7 +67,7 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (user.hasSpecial(firstname) || user.hasSpecial(lastname)) {
 			isValid = false;
-			message += "<br>The password must contain at least 1 special character";
+			message += "<br>Your first and last name must contain only letters";
 		}
 		if (!user.isEmailValid(email)) {
 			isValid = false;
@@ -72,7 +75,8 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (!user.isPasswordValid(password)) {
 			isValid = false;
-			message += "<br>Your password must be 6 characters long";
+			message += "<br>Your password must be 6-12 characters in length, and must contain "
+					+ "at least 1 uppercase letter and 1 special character";
 		}
 		if (!password.equals(passwordConfirm)) {
 			isValid = false;
@@ -91,10 +95,11 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (isValid) {
 			try {
-				user.insertDB(firstname, lastname, address, email, "client", password);
+				user.insertDB(firstname, lastname, address, email, "client", verificationKey, password);
 				message += "Successfully Registered User<br>An Email has been sent to " + email
 						+ ". Please check your email to verify and confirm";
 				color = "green";
+				user.sendEmailVerificationEmail(user.getUser(email));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -35,6 +35,7 @@
                         <div class="forgot-password">
 							<p><a class="p-white" href="forgotpassword.jsp">Forgot your password?</a></p>
   						</div>
+  						<input type="hidden" name="key" value="<%=request.getParameter("key")%>">
                     </form>
                 </div>
             </div>

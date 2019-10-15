@@ -28,6 +28,7 @@
                         <div class="p-t-10 buttons-container">
                             <button class="btn btn--pill btn--blue" name="button" value="resetPassword" type="submit">Reset</button>
                         </div>
+                        <input type="hidden" name="key" value="<%=request.getParameter("key")%>">
                     </form>
                 </div>
             </div>

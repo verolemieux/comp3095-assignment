@@ -17,7 +17,7 @@ public class Email {
 		
 	}
 
-    public void createEmail(String username, String messageText) {
+    public void createEmail(String username, String subjectText, String messageText) {
 
         final String myUsername = "abcfinancialinstitution@gmail.com";
         final String myPassword = "comp3095";
@@ -40,7 +40,7 @@ public class Email {
             message.setFrom(new InternetAddress("abcfinancialinstitution@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(username));
-            message.setSubject("Reset Your Password");
+            message.setSubject(subjectText);
             message.setContent(messageText, "text/html");
             Transport.send(message);
         } catch (MessagingException e) {
@@ -49,18 +49,24 @@ public class Email {
     }
     
     public void createResetPasswordMessageEmail(String username, String userFirstName, String key) {
+    	String subjectText = "Reset Your Password";
     	String messageText = "Hi " + userFirstName + ",<br><br>"
-    			+ "Click"
-    			+ "<a href=\"http://localhost:8080/comp3095Assignment/resetpassword.jsp?key=" + key + "\">here</a>"
+    			+ "Click "
+    			+ "<a href=\"http://localhost:8080/comp3095Assignment/resetpassword.jsp?key=" + key + "\">here</a> "
     			+ "to reset your password.<br><br>"
     			+ "Please reply to this email with any questions.<br><br>"
-    			+ "Thank you and have a great day,<br><br>ABC Financial Institution";
-    	createEmail(username, messageText);			   	
+    			+ "Thank you and have a great day,<br><br>ABC Financial Institution";   	
+    	createEmail(username, subjectText, messageText);			   	
     }
     
-    public void createRegistrationMessageEmail(String username) {
-    	//registration email
-    	//must reference user first name, last name, email address
-    	//must include a link to login page
+    public void createRegistrationMessageEmail(String username, String userFirstName, String userLastName, String key) {
+    	String subjectText = "Verify Your Email";
+    	String messageText = "Hi " + userFirstName + " " + userLastName + ",<br><br>"
+    			+ "Thank you for registering with ABC Financial Institution!<br><br>"
+    			+ "Verify your email by logging in "
+    			+ "<a href=\"http://localhost:8080/comp3095Assignment/login.jsp?key=" + key + "\">here</a>.<br><br>"
+    			+ "Please reply to this email with any questions.<br><br>"
+    			+ "Thank you and have a great day,<br><br>ABC Financial Institution";
+    	createEmail(username, subjectText, messageText);		 
     }
 }
