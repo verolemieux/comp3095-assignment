@@ -48,6 +48,13 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("login.jsp").include(request, response);	
 		}	
+		else if("resend".contentEquals(buttonAction))
+		{
+			//if user clicks to resend verification email
+			String errorMessage = "Verification email resent.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("login.jsp").include(request, response);
+		}
 		else if("login".contentEquals(buttonAction)) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");

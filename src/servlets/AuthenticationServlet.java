@@ -48,8 +48,12 @@ public class AuthenticationServlet extends HttpServlet {
 				else
 				{
 					System.out.println("Not verified");
-					String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
+					//If user isn't logged in, generates message and button to have email resent
+					String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.",authUser.getEmail());
+					String errorMessage2 = String.format("<form action=\"Login\" method=\"post\"><div class=\"p-t-10 buttons-container\">\n" + 
+							"<input type=\"text\" class=\"form-control\" placeholder=\"%s\" name=\"email\"></input><button class=\"btn btn--pill btn--blue\" name=\"button\" value=\"resend\" type=\"submit\">Resend</button></div></form>", authUser.getEmail());
 					request.setAttribute("errorMessage", errorMessage);
+					request.setAttribute("errorMessage2", errorMessage2);
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				}
 			}
