@@ -152,7 +152,7 @@ public class UserDao {
 			preparedStmt.setString(6, "client");
 			preparedStmt.setDate(7, startDate);
 			preparedStmt.setString(8, "abc123");
-			preparedStmt.setBoolean(9, false);
+			preparedStmt.setInt(9, 0);
 			preparedStmt.setString(10, password);
 
 			if (preparedStmt.execute()) {

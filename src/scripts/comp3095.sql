@@ -37,7 +37,7 @@ CREATE TABLE `users` (
   `role` varchar(20) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `verificationkey` varchar(255) DEFAULT NULL,
-  `verified` boolean,
+  `verified` int,
   `password` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -46,8 +46,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `address`, `email`, `role`, `created`, `verificationkey`, `verified`, `password`) VALUES
-(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', 'admin', '2019-10-09 22:33:26', '123abc', TRUE, 'P@ssword1'),
-(2, 'Anjana', 'Dontknowlastname', '127 Davenport Road', 'ajana.ontime@gmail.com', 'client', '2019-10-10 04:00:00', '123abc', TRUE, 'Ontime12=');
+(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', 'admin', '2019-10-09 22:33:26', '123abc', 1, 'P@ssword1'),
+(2, 'Anjana', 'Dontknowlastname', '127 Davenport Road', 'ajana.ontime@gmail.com', 'client', '2019-10-10 04:00:00', '123abc', 1, 'Ontime12=');
 
 --
 -- Indexes for dumped tables
