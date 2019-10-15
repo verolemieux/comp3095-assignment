@@ -6,6 +6,13 @@ import java.util.regex.Pattern;
 
 import beans.User;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.io.Console;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -110,7 +117,7 @@ public class UserDao {
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery(String.format("SELECT email, password FROM users WHERE email ='%s'", email));
 				resultSet.next();
-				if(resultSet.getString(2).equals(password))
+				if(validatePassword(password, resultSet.getString(2)))/*(resultSet.getString(2).equals(password))*/
 				{
 					getUser(email);
 					return true;
@@ -131,12 +138,14 @@ public class UserDao {
 		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(7).toString(), resultSet.getString(8).toString());
 		// debug code
 		System.out.println(resultSet.getString(1).toString() + " " + resultSet.getString(2).toString() + " " + resultSet.getString(3).toString() + " " + resultSet.getString(4).toString() + " " + resultSet.getString(5).toString() + " " + Integer.parseInt(resultSet.getString(6).toString()) + " " + resultSet.getString(7).toString() + " " + resultSet.getString(8).toString());
-		return authUser;
+		return authUser;	
 	}
 	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String password)
 			throws Exception {
 		boolean success = false;
 		try {
+			String hashedPassword = generatePassword(password);
+			
 			connect = connectDataBase();
 			statement = connect.createStatement();
 			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, verificationkey, verified, password)"
@@ -153,7 +162,7 @@ public class UserDao {
 			preparedStmt.setDate(7, startDate);
 			preparedStmt.setString(8, "abc123");
 			preparedStmt.setInt(9, 0);
-			preparedStmt.setString(10, password);
+			preparedStmt.setString(10, hashedPassword);
 
 			if (preparedStmt.execute()) {
 				success = true;
@@ -189,6 +198,72 @@ public class UserDao {
 		return Integer.toString(lastId);
 	}
 
+	public String generatePassword(String password) throws NoSuchAlgorithmException, InvalidKeyException {
+		String generatePasswordhash = "";
+		byte[] hash;
+		int iterations = 1000; // How many iteration of the algorithm would take to guess the hashed password
+		char[] chars = password.toCharArray(); // Transforms password to sequence of characters
+		byte[] salt = getSalt();
+
+		PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8); // Password-Based-Key-Derivative-Function
+		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1"); // Uses PBKD algorithm
+		try {
+			hash = skf.generateSecret(spec).getEncoded();
+			generatePasswordhash = iterations + ":" +toHex(salt) + ":" + toHex(hash); //It adds the iteratioms and the salt together
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return generatePasswordhash;
+	}
+	private static byte[] getSalt() throws NoSuchAlgorithmException
+    {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG"); 
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+	}
+	private static String toHex(byte[] array) throws NoSuchAlgorithmException
+    {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+        int paddingLength = (array.length * 2) - hex.length();
+        if(paddingLength > 0)
+        {
+            return String.format("%0"  +paddingLength + "d", 0) + hex;
+        }else{
+            return hex;
+        }
+	}
+
+
+	private boolean validatePassword(String password, String hashed) throws NoSuchAlgorithmException, InvalidKeySpecException{
+		String[] parts = hashed.split(":"); //It devides the hashed password into the salt and the hash
+		int iterations = Integer.parseInt(parts[0]);
+		byte[] salt = fromHex(parts[1]);
+		byte[] hash = fromHex(parts[2]);
+		PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, hash.length * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] testHash = skf.generateSecret(spec).getEncoded();
+         
+        int diff = hash.length ^ testHash.length;
+        for(int i = 0; i < hash.length && i < testHash.length; i++)
+        {
+            diff |= hash[i] ^ testHash[i];
+        }
+        return diff == 0;
+	}
+
+	private static byte[] fromHex(String hex) throws NoSuchAlgorithmException
+    {
+        byte[] bytes = new byte[hex.length() / 2];
+        for(int i = 0; i<bytes.length ;i++)
+        {
+            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
+    }
+	
 ////////////////////////////////////////////////////////////
 
 	public boolean hasSpecial(String s) {
