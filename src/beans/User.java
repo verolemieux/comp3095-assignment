@@ -7,10 +7,10 @@ public class User {
 	private String email;
 	private String password;
 	private String verificationkey;
-	private boolean verified;
+	private int verified;
 	private String role;
 
-	public User(String firstname, String lastname, String address, String email, String verificationkey, boolean verified, String password, String role) {
+	public User(String firstname, String lastname, String address, String email, String verificationkey, int verified, String password, String role) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -64,11 +64,11 @@ public class User {
 		this.verificationkey = verificationkey;
 	}
 
-	public boolean isVerified() {
+	public int isVerified() {
 		return verified;
 	}
 
-	public void setVerified(boolean verified) {
+	public void setVerified(int verified) {
 		this.verified = verified;
 	}
 	public String getRole() {

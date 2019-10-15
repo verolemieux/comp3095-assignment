@@ -39,7 +39,7 @@ public class AuthenticationServlet extends HttpServlet {
 				//set max session under inactivity for 15 minutes
 				session.setMaxInactiveInterval(60*15);
 				User authUser = DBUser.getUser(request.getParameter("username").toString());
-				if(authUser.isVerified())
+				if(authUser.isVerified() == 1)
 				{
 					session.setAttribute("authUser", authUser);
 					session.setAttribute("LoggedIn", "true");

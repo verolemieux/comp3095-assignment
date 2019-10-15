@@ -128,7 +128,7 @@ public class UserDao {
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey, role FROM users WHERE email ='%s'", email));
 		resultSet.next();
-		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), Boolean.parseBoolean(resultSet.getString(6).toString()), resultSet.getString(7).toString(), resultSet.getString(8).toString());
+		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(7).toString(), resultSet.getString(8).toString());
 		// debug code
 		System.out.println(resultSet.getString(1).toString() + " " + resultSet.getString(2).toString() + " " + resultSet.getString(3).toString() + " " + resultSet.getString(4).toString() + " " + resultSet.getString(5).toString() + " " + Boolean.parseBoolean(resultSet.getString(6).toString()) + " " + resultSet.getString(7).toString() + " " + resultSet.getString(8).toString());
 		return authUser;
