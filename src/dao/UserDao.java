@@ -51,7 +51,9 @@ public class UserDao {
 		}
 	}
 
-	public void readDataBase() throws Exception {
+	/*
+	 * don't think this is used at all
+	 * public void readDataBase() throws Exception {
 		try {
 			//reads full database, is this function even needed?
 			connect = connectDataBase();
@@ -74,7 +76,7 @@ public class UserDao {
 		} finally {
 			connect.close();
 		}
-	}
+	}*/
 
 	public boolean userExists(String email) throws Exception {
 		boolean exists = false;
@@ -209,7 +211,7 @@ public class UserDao {
 		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1"); // Uses PBKD algorithm
 		try {
 			hash = skf.generateSecret(spec).getEncoded();
-			generatePasswordhash = iterations + ":" +toHex(salt) + ":" + toHex(hash); //It adds the iteratioms and the salt together
+			generatePasswordhash = iterations + ":" +toHex(salt) + ":" + toHex(hash); //It adds the iterations and the salt together
 		} catch (InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

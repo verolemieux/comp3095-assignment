@@ -46,8 +46,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `address`, `email`, `role`, `created`, `verificationkey`, `verified`, `password`) VALUES
-(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', 'admin', '2019-10-09 22:33:26', '123abc', 1, 'P@ssword1'),
-(2, 'Anjana', 'Dontknowlastname', '127 Davenport Road', 'ajana.ontime@gmail.com', 'client', '2019-10-10 04:00:00', '123abc', 1, 'Ontime12=');
+(1, 'Admin', 'Admin', '123 Any St', 'admin@isp.net', 'admin', '2019-10-09 22:33:26', '123abc', 1, '1000:1eb6e97ec6b9b1768040c42cf9689d7f:1ec970160b4104d56b98fdd911d022732ef31a37b21515d9c393b1779a422e7e0cbd49d06c98cf24a1f47dde4301c70910f840fcac6fbae5a0dcf149e6cfa0c3')
 
 --
 -- Indexes for dumped tables
