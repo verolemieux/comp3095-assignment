@@ -129,8 +129,6 @@ public class UserDao {
 		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, role FROM users WHERE email ='%s'", email));
 		resultSet.next();
 		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(5).toString(), resultSet.getString(6).toString());
-		//debug code to test pulling the user
-		System.out.println(authUser.getFirstname() + " " +  authUser.getLastname() + " " +  authUser.getAddress() + " " + authUser.getEmail() + " " + authUser.getPassword() + " " + authUser.getRole());
 		return authUser;
 	}
 	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String password)
