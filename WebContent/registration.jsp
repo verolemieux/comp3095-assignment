@@ -11,31 +11,9 @@
 </head>
 <body>
 <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
-<!-- Make if statement here  -->
-	<% String message = (String)request.getAttribute("statusMessage");
-	   String color = (String)request.getAttribute("color"); 	
-		if(message != null){
-			if(color == "green"){%>
-				<div class="alert" style="background-color:green;width:30%">
-					<span class="closebtn" style="cursor:pointer;float:right;" onclick="this.parentElement.style.display='none';">&times;</span>
-					<%
-						message = (String)request.getAttribute("statusMessage");
-			  			out.println("<span>"+message+"</span>");
-					%>
-				</div>
-			<%				
-			}else{%>
-				<div class="alert" style="background-color:red;width:30%">
-					<span class="closebtn" style="cursor:pointer;float:right;" onclick="this.parentElement.style.display='none';">&times;</span>
-					<%
-						message = (String)request.getAttribute("statusMessage");
-			  			out.println("<span>"+message+"</span>");
-					%>
-				</div>
-			<%}
-		}
-	%>
-
+<div class="alert">
+	<%@ include file="statusAlert.jsp" %>
+</div>
         <div class="wrapper wrapper--w780">
             <div class="card card-3">
                 <div class="card-heading">

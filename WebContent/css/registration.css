@@ -1,5 +1,9 @@
 @charset "ISO-8859-1";
 
+.alert {
+	margin-bottom: 5px;
+}
+
 .p-white {
 	color: #ccc;
 }

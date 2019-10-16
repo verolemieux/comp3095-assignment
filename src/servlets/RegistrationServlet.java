@@ -42,38 +42,38 @@ public class RegistrationServlet extends HttpServlet {
 		for (int i = 0; i < params.length; i++) {
 			if (user.isEmpty(params[i])) {
 				isValid = false;
-				message += "<br>" + var_names[i] + " cannot be empty";
+				message += var_names[i] + " cannot be empty.<br>";
 			}
 		}
 		try {
 			if(user.userExists(email))
 			{
 				isValid = false;
-				message += "This email address is already taken.";
+				message += "This email address is already taken.<br>";
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		if (user.hasSpecial(firstname) || user.hasSpecial(lastname)) {
 			isValid = false;
-			message += "<br>Your first and last name must contain only letters";
+			message += "Your first and last name must contain only letters.<br>";
 		}
 		if (!user.isEmailValid(email)) {
 			isValid = false;
-			message += "<br>You must enter a valid email address";
+			message += "You must enter a valid email address.<br>";
 		}
 		if (!user.isPasswordValid(password)) {
 			isValid = false;
-			message += "<br>Your password must be 6-12 characters in length, and must contain "
-					+ "at least 1 uppercase letter and 1 special character";
+			message += "Your password must be 6-12 characters in length, and must contain "
+					+ "at least 1 uppercase letter and 1 special character.<br>";
 		}
 		if (!password.equals(passwordConfirm)) {
 			isValid = false;
-			message += "<br>Your passwords don't match";
+			message += "Your passwords don't match.<br>";
 		}
 		if (request.getParameter("agree_check") == null) {
 			isValid = false;
-			message += "<br>You must agree to our terms of service";
+			message += "You must agree to our terms of service.<br>";
 		}
 		if (isValid) {
 			try {
