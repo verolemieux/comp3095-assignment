@@ -367,7 +367,8 @@ public class UserDao {
 		try {
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			String query = String.format("UPDATE users set password='%s' where email='%s'", password, username);
+			String hashedPassword = generatePassword(password);
+			String query = String.format("UPDATE users set password='%s' where email='%s'", hashedPassword, username);
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
 			if (preparedStmt.execute()) {
 				success = true;

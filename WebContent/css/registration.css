@@ -1,5 +1,13 @@
 @charset "ISO-8859-1";
 
+.p-white {
+	color: #ccc;
+}
+
+.checkbox-div {
+	display:flex;
+}
+
 .font-robo {
   font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
 }
@@ -9,12 +17,12 @@
 }
 
 .checkbox{
-	position: relative;
-	right: 45%;
+	position:relative;
+	right:30%
 }
 .checkbox_label{
-	float:right;
 	position:relative;
+	right:55%;"
 }
 .row {
   display: -webkit-box;
@@ -247,6 +255,10 @@ h6 {
 
 .btn--green {
   background: #57b846;
+}
+
+.btn--blue {
+  background: #46adb8;
 }
 
 .btn--green:hover {

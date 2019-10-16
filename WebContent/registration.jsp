@@ -44,10 +44,10 @@
                     <h2 class="title">Registration</h2>
                     <form action="Register" method="POST">
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Firstname" name="firstname">
+                            <input class="input--style-3" type="text" placeholder="First Name" name="firstname">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Lastname" name="lastname">
+                            <input class="input--style-3" type="text" placeholder="Last Name" name="lastname">
                         </div>
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="Address" name="address">
@@ -62,12 +62,12 @@
                         <div class="input-group">
                             <input class="input--style-3" type="password" placeholder="Confirm Password" name="confirm_password">
                         </div>
-         				<div class="checkbox-div" style="display:flex;">
-                        	<input type="checkbox" name="agree_check" class="checkbox" style="position:relative;right:30%;">
-						    <label class="checkbox_label" for="exampleCheck1" style="position:relative;right:55%;color:white;">I agree to the terms of service</label>
+         				<div class="checkbox-div">
+                        	<input type="checkbox" name="agree_check" class="checkbox">
+						    <label class="checkbox_label p-white" for="exampleCheck1">I agree to the terms of service</label>
 						 </div>
-                        <div class="p-t-10">
-                            <button class="btn btn--pill btn--green" type="submit">Register</button>
+                        <div>
+                            <button class="btn btn--pill btn--blue" type="submit">Register</button>
                         </div>
                     </form>
                 </div>

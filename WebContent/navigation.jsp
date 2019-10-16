@@ -37,7 +37,7 @@
 	  </div>
 	  &nbsp;&nbsp;
       <form action="Login" method="post" class="form-inline my-2 my-lg-0">
-      <input type="submit" name="Logout" value="Logout" class="btn btn-primary">
+      <input type="submit" name="Logout" value="Logout" class="btn btn--pill btn--blue">
       </form>
       </div>
 </nav>
