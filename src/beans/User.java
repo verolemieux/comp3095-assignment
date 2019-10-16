@@ -1,6 +1,7 @@
 package beans;
 
 public class User {
+	private int id;
 	private String firstname;
 	private String lastname;
 	private String address;
@@ -64,7 +65,7 @@ public class User {
 		this.verificationkey = verificationkey;
 	}
 
-	public int isVerified() {
+	public int getVerified() {
 		return verified;
 	}
 
@@ -77,6 +78,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
