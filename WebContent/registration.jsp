@@ -41,7 +41,7 @@
                 <div class="card-heading">
                 </div>
                 <div class="card-body">
-                    <h2 class="title">Registration</h2>
+                    <h2 class="title">REGISTRATION</h2>
                     <form action="Register" method="POST">
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="First Name" name="firstname">

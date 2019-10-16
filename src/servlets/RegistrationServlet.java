@@ -67,7 +67,7 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (user.hasSpecial(firstname) || user.hasSpecial(lastname)) {
 			isValid = false;
-			message += "<br>Your first and last name must contain only letters";
+			message += "<br>Your first and last names must contain only letters";
 		}
 		if (!user.isEmailValid(email)) {
 			isValid = false;

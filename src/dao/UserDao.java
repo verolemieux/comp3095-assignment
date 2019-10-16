@@ -336,7 +336,7 @@ public class UserDao {
 	
 	public void sendEmailVerificationEmail(User user) {
 		Email email = new Email();
-		email.createRegistrationMessageEmail(user.getEmail(), user.getFirstname(), user.getLastname(), user.getVerificationkey());
+		email.createRegistrationMessageEmail(user);
 	}
 	
 	public boolean verifyEmail(User user, String key) throws Exception {
@@ -359,7 +359,7 @@ public class UserDao {
 
 	public void sendResetPasswordEmail(User user) {
 		Email email = new Email();
-		email.createResetPasswordMessageEmail(user.getEmail(), user.getFirstname(), user.getVerificationkey());
+		email.createResetPasswordMessageEmail(user);
 	}
 
 	public boolean resetPassword(String username, String password) throws Exception {

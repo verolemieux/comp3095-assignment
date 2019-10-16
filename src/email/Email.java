@@ -11,6 +11,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import beans.User;
+
 public class Email {
 	
 	public Email() {
@@ -48,25 +50,29 @@ public class Email {
         }
     }
     
-    public void createResetPasswordMessageEmail(String username, String userFirstName, String key) {
+    public void createResetPasswordMessageEmail(User user) {
     	String subjectText = "Reset Your Password";
-    	String messageText = "Hi " + userFirstName + ",<br><br>"
+    	String messageText = "Hi " + user.getFirstname() + ",<br><br>"
     			+ "Click "
-    			+ "<a href=\"http://localhost:8080/comp3095Assignment/resetpassword.jsp?key=" + key + "\">here</a> "
+    			+ "<a href=\"http://localhost:8080/comp3095Assignment/resetpassword.jsp?key=" + user.getVerificationkey() + "\">here</a> "
     			+ "to reset your password.<br><br>"
     			+ "Please reply to this email with any questions.<br><br>"
     			+ "Thank you and have a great day,<br><br>ABC Financial Institution";   	
-    	createEmail(username, subjectText, messageText);			   	
+    	createEmail(user.getEmail(), subjectText, messageText);			   	
     }
     
-    public void createRegistrationMessageEmail(String username, String userFirstName, String userLastName, String key) {
+    public void createRegistrationMessageEmail(User user) {
     	String subjectText = "Verify Your Email";
-    	String messageText = "Hi " + userFirstName + " " + userLastName + ",<br><br>"
+    	String messageText = "Hi " + user.getFirstname() + ",<br><br>"
     			+ "Thank you for registering with ABC Financial Institution!<br><br>"
+    			+ "<table><tr><td>First Name:</td><td>" + user.getFirstname() + "</td></tr>"
+    			+ "<tr><td>Last Name:</td><td>" + user.getLastname() + "</td></tr>"
+    			+ "<tr><td>Email:</td><td>" + user.getEmail() + "</td></tr>"
+    			+ "<tr><td>Address:</td><td>" + user.getAddress() + "</td></tr></table><br><br>"
     			+ "Verify your email by logging in "
-    			+ "<a href=\"http://localhost:8080/comp3095Assignment/login.jsp?key=" + key + "\">here</a>.<br><br>"
+    			+ "<a href=\"http://localhost:8080/comp3095Assignment/login.jsp?key=" + user.getVerificationkey() + "\">here</a>.<br><br>"
     			+ "Please reply to this email with any questions.<br><br>"
     			+ "Thank you and have a great day,<br><br>ABC Financial Institution";
-    	createEmail(username, subjectText, messageText);		 
+    	createEmail(user.getEmail(), subjectText, messageText);		 
     }
 }

@@ -57,8 +57,8 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").include(request, response);
 		}
 		else if("login".contentEquals(buttonAction)) {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+			//String username = request.getParameter("username");
+			//String password = request.getParameter("password");
 			//String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 			request.getRequestDispatcher("Auth").include(request, response);
 			/*boolean valid = VerifyUtils.verify(gRecaptchaResponse);
