@@ -1,6 +1,7 @@
 package beans;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
 	private String firstname;
 	private String lastname;
 	private String address;
@@ -9,6 +10,18 @@ public class User {
 	private String verificationkey;
 	private int verified;
 	private String role;
+	
+	public User() {
+		firstname = "";
+		lastname = "";
+		address = "";
+		email = "";
+		password = "";
+		verificationkey = "";
+		verified = 0;
+		role = "";
+		
+	}
 
 	public User(String firstname, String lastname, String address, String email, String verificationkey, int verified, String password, String role) {
 		super();
