@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 
@@ -54,6 +55,27 @@ public class UserRoleDao {
 		}
 		return success;
 	}
-
+	public Role[] getRoles(int userId) throws Exception
+	{
+		try {
+			
+			connect = connectDataBase();
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery(String.format("SELECT count(role) FROM userrole WHERE userid ='%s'", userId));
+			resultSet.next();
+			int numRows = resultSet.getInt(1);
+			Role[] DBRoles = new Role[numRows];
+			resultSet = statement.executeQuery(String.format("SELECT role FROM userrole WHERE userid ='%s'", userId));
+			while(resultSet.next())
+			{
+				
+			}
+			
+			
+		} finally {
+			connect.close();
+		}
+		return null;
+	}
 
 }
