@@ -13,7 +13,6 @@ import dao.UserDao;
 import recaptcha.VerifyUtils;
 
 @WebServlet("/Login")
-
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -57,21 +56,7 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").include(request, response);
 		}
 		else if("login".contentEquals(buttonAction)) {
-			//String username = request.getParameter("username");
-			//String password = request.getParameter("password");
-			//String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 			request.getRequestDispatcher("Auth").include(request, response);
-			/*boolean valid = VerifyUtils.verify(gRecaptchaResponse);
-			if(valid)
-			{
-				request.getRequestDispatcher("Auth").include(request, response);
-			}
-			else
-			{
-				String errorMessage = "Please verify recaptcha.";
-				request.setAttribute("errorMessage", errorMessage);
-				request.getRequestDispatcher("login.jsp").include(request, response);
-			}*/
 		}	
 		else if("register".contentEquals(buttonAction)) {
 			request.getRequestDispatcher("registration.jsp").forward(request, response);

@@ -2,7 +2,7 @@ package beans;
 
 import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
 	private int id;
 	private String firstname;
 	private String lastname;
@@ -12,18 +12,10 @@ public class User {
 	private String verificationkey;
 	private int verified;
 	private String role;
+	
+	public User() {
 
-	public User(String firstname, String lastname, String address, String email, String verificationkey, int verified, String password, String role) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.address = address;
-		this.email = email;
-		this.password = password;
-		this.verificationkey = verificationkey;
-		this.verified = verified;
-		this.role = role;
-	}	
+	}
 
 	public String getFirstname() {
 		return firstname;
@@ -59,10 +51,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getVerificationkey() {
 		return verificationkey;
 	}
-
 	public void setVerificationkey(String verificationkey) {
 		this.verificationkey = verificationkey;
 	}
@@ -70,14 +62,13 @@ public class User {
 	public int getVerified() {
 		return verified;
 	}
-
 	public void setVerified(int verified) {
 		this.verified = verified;
 	}
+	
 	public String getRole() {
 		return role;
 	}
-
 	public void setRole(String role) {
 		this.role = role;
 	}
@@ -85,9 +76,7 @@ public class User {
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 }

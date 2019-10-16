@@ -19,13 +19,11 @@ public class RegistrationServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String firstname = request.getParameter("firstname");
 		String lastname = request.getParameter("lastname");
 		String address = request.getParameter("address");
@@ -40,15 +38,6 @@ public class RegistrationServlet extends HttpServlet {
 		String color = "";
 		boolean isValid = true;
 		UserDao user = new UserDao();
-
-		/*
-		 * try { UserDao.connectDataBase(); log("Database connection succesful!"); }
-		 * catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
-		 * }
-		 * 
-		 * try { user.readDataBase(); } catch (Exception e) { // TODO Auto-generated
-		 * catch block e.printStackTrace(); }
-		 */
 
 		for (int i = 0; i < params.length; i++) {
 			if (user.isEmpty(params[i])) {
@@ -67,7 +56,7 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		if (user.hasSpecial(firstname) || user.hasSpecial(lastname)) {
 			isValid = false;
-			message += "<br>Your first and last names must contain only letters";
+			message += "<br>Your first and last name must contain only letters";
 		}
 		if (!user.isEmailValid(email)) {
 			isValid = false;
@@ -109,7 +98,5 @@ public class RegistrationServlet extends HttpServlet {
 		request.setAttribute("color", color);
 		request.setAttribute("statusMessage", message);
 		request.getRequestDispatcher("registration.jsp").include(request, response);
-
 	}
-
 }

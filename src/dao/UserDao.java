@@ -44,7 +44,7 @@ public class UserDao {
 
 	}
 
-////////////INTERACT WITH DB METHODS//////////////////////////////////////////
+/////////// INTERACT WITH DATABASE ///////////
 
 	public static Connection connectDataBase() throws Exception {
 		try {
@@ -58,33 +58,6 @@ public class UserDao {
 		}
 	}
 
-	/*
-	 * don't think this is used at all
-	 * public void readDataBase() throws Exception {
-		try {
-			//reads full database, is this function even needed?
-			connect = connectDataBase();
-			// CREATE STATEMENT
-			statement = connect.createStatement();
-			// GET RESULT OF SQL QUERY
-			resultSet = statement.executeQuery("SELECT * FROM users");
-			ResultSetMetaData rsmd = resultSet.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
-			while (resultSet.next()) {
-				for (int i = 1; i <= columnsNumber; i++) {
-					if (i > 1)
-						System.out.print(",  ");
-					String columnValue = resultSet.getString(i);
-					System.out.print(columnValue + " " + rsmd.getColumnName(i));
-				}
-				System.out.println("");
-			}
-
-		} finally {
-			connect.close();
-		}
-	}*/
-
 	public boolean userExists(String email) throws Exception {
 		boolean exists = false;
 		try {
@@ -96,19 +69,6 @@ public class UserDao {
 			{
 				exists = true;
 			}
-			//below isn't used kept for reference
-			//ResultSetMetaData rsmd = resultSet.getMetaData();
-			/*int columnsNumber = rsmd.getColumnCount();
-			while (resultSet.next()) {
-				for (int i = 0; i <= columnsNumber; i++) {
-					//if (i > 1) {
-						if (email == resultSet.getString(i)) {
-							exists = true;
-						//}
-					}
-				}
-			}*/
-
 		} finally {
 			connect.close();
 		}
@@ -137,6 +97,7 @@ public class UserDao {
 		}
 		return false;
 	}
+	
 	public User getUser(String email) throws Exception
 	{
 		//pulls a User object from the database
@@ -144,11 +105,18 @@ public class UserDao {
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey, role FROM users WHERE email ='%s'", email));
 		resultSet.next();
-		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(7).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(5).toString(), resultSet.getString(8).toString());
-		// debug code
-		System.out.println(resultSet.getString(1).toString() + " " + resultSet.getString(2).toString() + " " + resultSet.getString(3).toString() + " " + resultSet.getString(4).toString() + " " + resultSet.getString(5).toString() + " " + Integer.parseInt(resultSet.getString(6).toString()) + " " + resultSet.getString(7).toString() + " " + resultSet.getString(8).toString());
+		User authUser = new User();
+		authUser.setFirstname(resultSet.getString(1).toString());
+		authUser.setLastname(resultSet.getString(2).toString());
+		authUser.setAddress(resultSet.getString(3).toString());
+		authUser.setEmail(resultSet.getString(4).toString());
+		authUser.setVerificationkey(resultSet.getString(7).toString());
+		authUser.setVerified(Integer.parseInt(resultSet.getString(6).toString()));
+		authUser.setPassword(resultSet.getString(5).toString());
+		authUser.setRole(resultSet.getString(8).toString());
 		return authUser;	
 	}
+	
 	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String verificationKey, String password)
 			throws Exception {
 		boolean success = false;
@@ -204,6 +172,8 @@ public class UserDao {
 		}
 		return Integer.toString(lastId);
 	}
+	
+/////////// HASH PASSWORD ///////////
 
 	public String generatePassword(String password) throws NoSuchAlgorithmException, InvalidKeyException {
 		String generatePasswordhash = "";
@@ -223,6 +193,7 @@ public class UserDao {
 		}
 		return generatePasswordhash;
 	}
+	
 	private static byte[] getSalt() throws NoSuchAlgorithmException
     {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG"); 
@@ -230,6 +201,7 @@ public class UserDao {
         sr.nextBytes(salt);
         return salt;
 	}
+	
 	private static String toHex(byte[] array) throws NoSuchAlgorithmException
     {
         BigInteger bi = new BigInteger(1, array);
@@ -242,8 +214,7 @@ public class UserDao {
             return hex;
         }
 	}
-
-
+	
 	private boolean validatePassword(String password, String hashed) throws NoSuchAlgorithmException, InvalidKeySpecException{
 		String[] parts = hashed.split(":"); //It devides the hashed password into the salt and the hash
 		int iterations = Integer.parseInt(parts[0]);
@@ -271,7 +242,7 @@ public class UserDao {
         return bytes;
     }
 	
-////////////////////////////////////////////////////////////
+/////////// VALIDATE USER INPUT ///////////
 
 	public boolean hasSpecial(String s) {
 		Pattern p = Pattern.compile("[^A-Za-z0-9]");
