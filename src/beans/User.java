@@ -13,7 +13,7 @@ public class User {
 	private int verified;
 	private String role;
 
-	public User(String firstname, String lastname, String address, String email, String verificationkey, int verified, String password, String role) {
+	public User(String firstname, String lastname, String address, String email, String verificationkey, int verified, String password) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;

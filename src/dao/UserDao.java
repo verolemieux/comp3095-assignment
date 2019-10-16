@@ -51,7 +51,7 @@ public class UserDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			//connect to DB and return connection
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
+					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
 			return connect;
 		} catch (Exception e) {
 			throw e;
@@ -142,35 +142,34 @@ public class UserDao {
 		//pulls a User object from the database
 		connect = connectDataBase();
 		statement = connect.createStatement();
-		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey, role FROM users WHERE email ='%s'", email));
+		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey FROM users WHERE email ='%s'", email));
 		resultSet.next();
-		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(7).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(5).toString(), resultSet.getString(8).toString());
+		User authUser = new User(resultSet.getString(1).toString(), resultSet.getString(2).toString(), resultSet.getString(3).toString(), resultSet.getString(4).toString(), resultSet.getString(7).toString(), Integer.parseInt(resultSet.getString(6).toString()), resultSet.getString(5).toString());
 		// debug code
 		System.out.println(resultSet.getString(1).toString() + " " + resultSet.getString(2).toString() + " " + resultSet.getString(3).toString() + " " + resultSet.getString(4).toString() + " " + resultSet.getString(5).toString() + " " + Integer.parseInt(resultSet.getString(6).toString()) + " " + resultSet.getString(7).toString() + " " + resultSet.getString(8).toString());
 		return authUser;	
 	}
-	public boolean insertDB(String firstname, String lastname, String address, String email, String role, String verificationKey, String password)
+	public boolean insertDB(String firstname, String lastname, String address, String email, String verificationKey, String password)
 			throws Exception {
 		boolean success = false;
 		try {
 			String hashedPassword = generatePassword(password);
-			
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, verificationkey, verified, password)"
-					+ "values(?,?,?,?,?,?,?,?,?,?)";
+			System.out.println("testing");
+			String query = "INSERT INTO users (userid, firstname, lastname, address, email, created, verificationkey, verified, password)"
+					+ "values(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
 			preparedStmt.setString(1, generateID());
 			preparedStmt.setString(2, firstname);
 			preparedStmt.setString(3, lastname);
 			preparedStmt.setString(4, address);
 			preparedStmt.setString(5, email);
-			preparedStmt.setString(6, "client");
-			preparedStmt.setTimestamp(7,java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
-			preparedStmt.setString(8, verificationKey);
-			preparedStmt.setInt(9, 0);
-			preparedStmt.setString(10, hashedPassword);
-
+			preparedStmt.setTimestamp(6,java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+			preparedStmt.setString(7, verificationKey);
+			preparedStmt.setInt(8, 0);
+			preparedStmt.setString(9, hashedPassword);
+			
 			if (preparedStmt.execute()) {
 				success = true;
 			}
@@ -187,7 +186,7 @@ public class UserDao {
 			String temp = "";
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT Max(id) FROM users");
+			resultSet = statement.executeQuery("SELECT Max(userid) FROM users");
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 			while (resultSet.next()) {
