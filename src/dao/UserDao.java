@@ -113,7 +113,6 @@ public class UserDao {
 		authUser.setVerificationkey(resultSet.getString(7).toString());
 		authUser.setVerified(Integer.parseInt(resultSet.getString(6).toString()));
 		authUser.setPassword(resultSet.getString(5).toString());
-		authUser.setRole(resultSet.getString(8).toString());
 		return authUser;	
 	}
 
