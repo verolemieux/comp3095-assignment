@@ -4,6 +4,10 @@ import java.util.Calendar;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import beans.User;
 
@@ -16,6 +20,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.io.Console;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -154,8 +159,6 @@ public class UserDao {
 			statement = connect.createStatement();
 			String query = "INSERT INTO users (id, firstname, lastname, address, email, role, created, verificationkey, verified, password)"
 					+ "values(?,?,?,?,?,?,?,?,?,?)";
-			Calendar calendar = Calendar.getInstance();
-			Date startDate = new Date(calendar.getTime().getTime());
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
 			preparedStmt.setString(1, generateID());
 			preparedStmt.setString(2, firstname);
@@ -163,7 +166,7 @@ public class UserDao {
 			preparedStmt.setString(4, address);
 			preparedStmt.setString(5, email);
 			preparedStmt.setString(6, "client");
-			preparedStmt.setDate(7, startDate);
+			preparedStmt.setTimestamp(7,java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
 			preparedStmt.setString(8, verificationKey);
 			preparedStmt.setInt(9, 0);
 			preparedStmt.setString(10, hashedPassword);
