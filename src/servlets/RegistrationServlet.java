@@ -75,16 +75,9 @@ public class RegistrationServlet extends HttpServlet {
 			isValid = false;
 			message += "<br>You must agree to our terms of service";
 		}
-		try {
-			if (user.userExists(email)) {
-				isValid = false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		if (isValid) {
 			try {
-				user.insertDB(firstname, lastname, address, email, "client", verificationKey, password);
+				user.insertDB(firstname, lastname, address, email, verificationKey, password);
 				message += "Successfully Registered User<br>An Email has been sent to " + email
 						+ ". Please check your email to verify and confirm";
 				color = "green";

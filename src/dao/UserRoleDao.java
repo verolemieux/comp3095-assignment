@@ -41,7 +41,7 @@ public class UserRoleDao {
 			connect = connectDataBase();
 			statement = connect.createStatement();
 			String query = "INSERT INTO userrole (userid, roleid)"
-					+ "values(?,?,?,?,?,?,?,?,?,?)";
+					+ "values(?,?)";
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
 			preparedStmt.setInt(1, insertUser.getId());
 			preparedStmt.setInt(2, insertRole.getId());
@@ -66,9 +66,15 @@ public class UserRoleDao {
 			int numRows = resultSet.getInt(1);
 			Role[] DBRoles = new Role[numRows];
 			resultSet = statement.executeQuery(String.format("SELECT role FROM userrole WHERE userid ='%s'", userId));
+			int index = 0;
 			while(resultSet.next())
 			{
-				
+				ResultSet resultsRoles = statement.executeQuery(String.format("SELECT role FROM roles WHERE roleid='%s'", resultSet.getString(1)));
+				resultsRoles.next();
+				Role ArrayRole = new Role();
+				ArrayRole.setId(Integer.parseInt(resultSet.getString(1)));
+				ArrayRole.setRole(resultsRoles.getString(1));
+				DBRoles[index] = ArrayRole;
 			}
 			
 			

@@ -12,7 +12,7 @@ public class User implements Serializable {
 	private String verificationkey;
 	private int verified;
 	private String role;
-	
+
 	public User() {
 
 	}
@@ -51,10 +51,11 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getVerificationkey() {
 		return verificationkey;
 	}
+
 	public void setVerificationkey(String verificationkey) {
 		this.verificationkey = verificationkey;
 	}
@@ -62,13 +63,15 @@ public class User implements Serializable {
 	public int getVerified() {
 		return verified;
 	}
+
 	public void setVerified(int verified) {
 		this.verified = verified;
 	}
-	
+
 	public String getRole() {
 		return role;
 	}
+
 	public void setRole(String role) {
 		this.role = role;
 	}
@@ -76,7 +79,9 @@ public class User implements Serializable {
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 }
