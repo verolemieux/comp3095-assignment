@@ -1,38 +1,25 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import dao.DBstring;
+
 import beans.Role;
 public class RoleDao {
 
-	private static String username = "admin";
-	private static String password = "";
-	private static String database = "COMP3095";
 	private static Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
+	private DBstring dbConnect = new DBstring();
 	
 	public RoleDao()
 	{
 	}
-	
-	public static Connection connectDataBase() throws Exception {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			//connect to DB and return connection
-			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
-			return connect;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-	
+
 	public Role getRole(int id) throws Exception {
 		try {
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery(String.format("SELECT role FROM roles WHERE roleid ='%s'", id));
 			if(resultSet.next())

@@ -1,44 +1,30 @@
 package dao;
 
-import java.util.Calendar;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import beans.User;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.io.Console;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import dao.DBstring;
+import beans.User;
 import email.Email;
 
 public class UserDao {
 
-	private static String username = "admin";
-	private static String password = "";
-	private static String database = "COMP3095";
 	private static Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
+	private DBstring dbConnect = new DBstring();
 
 	public UserDao() {
 
@@ -46,22 +32,10 @@ public class UserDao {
 
 /////////// INTERACT WITH DATABASE ///////////
 
-	public static Connection connectDataBase() throws Exception {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			//connect to DB and return connection
-			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
-			return connect;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
 	public boolean userExists(String email) throws Exception {
 		boolean exists = false;
 		try {
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery(String.format("SELECT email FROM users WHERE email ='%s'", email));
 			//if result set has a value in it, will have found the user - if not return false
@@ -82,7 +56,7 @@ public class UserDao {
 		{
 			try {
 				//if user exists, check to ensure password is valid
-				connect = connectDataBase();
+				connect = dbConnect.connectDataBase();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery(String.format("SELECT email, password FROM users WHERE email ='%s'", email));
 				resultSet.next();
@@ -101,7 +75,7 @@ public class UserDao {
 	public User getUser(String email) throws Exception
 	{
 		//pulls a User object from the database
-		connect = connectDataBase();
+		connect = dbConnect.connectDataBase();
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey FROM users WHERE email ='%s'", email));
 		resultSet.next();
@@ -121,7 +95,7 @@ public class UserDao {
 		boolean success = false;
 		try {
 			String hashedPassword = generatePassword(password);
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			System.out.println("testing");
 			String query = "INSERT INTO users (userid, firstname, lastname, address, email, created, verificationkey, verified, password)"
@@ -151,7 +125,7 @@ public class UserDao {
 		int lastId = 0;
 		try {
 			String temp = "";
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT Max(userid) FROM users");
 			ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -286,7 +260,7 @@ public class UserDao {
 		if(userExists(username))
 		{
 			try {
-				connect = connectDataBase();
+				connect = dbConnect.connectDataBase();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery(String.format("SELECT verificationkey FROM users WHERE email ='%s'", username));
 				resultSet.next();
@@ -311,7 +285,7 @@ public class UserDao {
 	public boolean verifyEmail(User user, String key) throws Exception {
 		boolean success = false;
 		try {			
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			String query = String.format("UPDATE users set verified=1 where email='%s'", user.getEmail());
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
@@ -334,7 +308,7 @@ public class UserDao {
 	public boolean resetPassword(String username, String password) throws Exception {
 		boolean success = false;
 		try {
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			String hashedPassword = generatePassword(password);
 			String query = String.format("UPDATE users set password='%s' where email='%s'", hashedPassword, username);

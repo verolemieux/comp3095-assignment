@@ -1,44 +1,28 @@
 package dao;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
 
 import beans.Role;
 import beans.User;
+import dao.DBstring;
 
 public class UserRoleDao {
 
-	private static String username = "admin";
-	private static String password = "";
-	private static String database = "COMP3095";
+
 	private static Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
+	private DBstring dbConnect = new DBstring();
 	
-	
-	public static Connection connectDataBase() throws Exception {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			//connect to DB and return connection
-			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
-			return connect;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
 	
 	public boolean insertDB(User insertUser, Role insertRole)
 			throws Exception {
 		boolean success = false;
 		try {
 			
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			String query = "INSERT INTO userrole (userid, roleid)"
 					+ "values(?,?)";
@@ -59,7 +43,7 @@ public class UserRoleDao {
 	{
 		try {
 			
-			connect = connectDataBase();
+			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery(String.format("SELECT count(role) FROM userrole WHERE userid ='%s'", userId));
 			resultSet.next();
