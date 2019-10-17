@@ -23,7 +23,7 @@ public class RoleDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			//connect to DB and return connection
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
+					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
 			return connect;
 		} catch (Exception e) {
 			throw e;

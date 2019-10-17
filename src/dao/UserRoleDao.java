@@ -26,7 +26,7 @@ public class UserRoleDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			//connect to DB and return connection
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3307/" + database + "?" + "user=" + username + "&password=" + password);
+					"jdbc:mysql://localhost:3306/" + database + "?" + "user=" + username + "&password=" + password);
 			return connect;
 		} catch (Exception e) {
 			throw e;
@@ -61,27 +61,68 @@ public class UserRoleDao {
 			
 			connect = connectDataBase();
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery(String.format("SELECT count(role) FROM userrole WHERE userid ='%s'", userId));
+			
+			//find out how many roles a user has
+			resultSet = statement.executeQuery(String.format("SELECT count(*) FROM userrole WHERE userid ='%s'", userId));
 			resultSet.next();
 			int numRows = resultSet.getInt(1);
-			Role[] DBRoles = new Role[numRows];
-			resultSet = statement.executeQuery(String.format("SELECT role FROM userrole WHERE userid ='%s'", userId));
-			int index = 0;
-			while(resultSet.next())
+			//debug code
+			System.out.println("Number of roles by this user: " + numRows);
+			
+			//count how many roles are in database
+			ResultSet resultSetallRoles = statement.executeQuery(String.format("SELECT count(*) FROM roles"));
+			resultSetallRoles.next();
+			int numRolesRows = resultSetallRoles.getInt(1);
+			Role[] allRoles = new Role[numRolesRows];
+			
+			//get all roles out of database and put into an array
+			int indexAllRoles = 0;
+			ResultSet resultsRoles = statement.executeQuery(String.format("SELECT roleid, role FROM roles"));
+			while(resultsRoles.next())
 			{
-				ResultSet resultsRoles = statement.executeQuery(String.format("SELECT role FROM roles WHERE roleid='%s'", resultSet.getString(1)));
-				resultsRoles.next();
-				Role ArrayRole = new Role();
-				ArrayRole.setId(Integer.parseInt(resultSet.getString(1)));
-				ArrayRole.setRole(resultsRoles.getString(1));
-				DBRoles[index] = ArrayRole;
+				Role addRole = new Role();
+				addRole.setId(resultsRoles.getInt(1));
+				addRole.setRole(resultsRoles.getString(2));
+				allRoles[indexAllRoles] = addRole;
+				indexAllRoles++;
 			}
+			
+			//
+			Role[] DBRoles = new Role[numRows];
+			ResultSet resultSet2 = statement.executeQuery(String.format("SELECT roleid FROM userrole WHERE userid ='%s'", userId));
+			int index = 0;
+			while(resultSet2.next())
+			{
+				//find out which index a role is at with the ID present in the current row
+				int indexSearch = findIndex(allRoles, resultSet2.getInt(1));
+				Role ArrayRole = new Role();
+				//fill the role ID from this row, which corresponds to the index searched
+				ArrayRole.setId(Integer.parseInt(resultSet2.getString(1)));
+				ArrayRole.setRole(allRoles[indexSearch].getRole());
+				//debug code
+				System.out.println("RoleID: " + ArrayRole.getId() + " Role name: " + ArrayRole.getRole());
+				DBRoles[index] = ArrayRole;
+				index++;
+			}
+			return DBRoles;
 			
 			
 		} finally {
 			connect.close();
 		}
-		return null;
+		//return null;
+	}
+	public int findIndex(Role[] role, int roleid)
+	{
+		//find what index a roleID is at in the array of roles
+		for(int i =0; i < role.length; i++)
+		{
+			if(role[i].getId() == roleid)
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }
