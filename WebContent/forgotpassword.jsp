@@ -12,6 +12,9 @@
 </head>
 <body>
 <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+<div class="alert">
+	<%@ include file="statusAlert.jsp" %>
+</div>
 	<div class="wrapper wrapper--w780">
 		<div class="card card-3">
 			<div class="card-heading"></div>
