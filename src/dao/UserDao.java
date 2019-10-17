@@ -32,6 +32,7 @@ public class UserDao {
 
 /////////// INTERACT WITH DATABASE ///////////
 
+
 	public boolean userExists(String email) throws Exception {
 		boolean exists = false;
 		try {
@@ -77,16 +78,17 @@ public class UserDao {
 		//pulls a User object from the database
 		connect = dbConnect.connectDataBase();
 		statement = connect.createStatement();
-		resultSet = statement.executeQuery(String.format("SELECT firstname, lastname, address, email, password, verified, verificationkey FROM users WHERE email ='%s'", email));
+		resultSet = statement.executeQuery(String.format("SELECT userid, firstname, lastname, address, email, password, verified, verificationkey FROM users WHERE email ='%s'", email));
 		resultSet.next();
 		User authUser = new User();
-		authUser.setFirstname(resultSet.getString(1).toString());
-		authUser.setLastname(resultSet.getString(2).toString());
-		authUser.setAddress(resultSet.getString(3).toString());
-		authUser.setEmail(resultSet.getString(4).toString());
-		authUser.setVerificationkey(resultSet.getString(7).toString());
-		authUser.setVerified(Integer.parseInt(resultSet.getString(6).toString()));
-		authUser.setPassword(resultSet.getString(5).toString());
+		authUser.setId(Integer.parseInt(resultSet.getString(1)));
+		authUser.setFirstname(resultSet.getString(2).toString());
+		authUser.setLastname(resultSet.getString(3).toString());
+		authUser.setAddress(resultSet.getString(4).toString());
+		authUser.setEmail(resultSet.getString(5).toString());
+		authUser.setVerificationkey(resultSet.getString(8).toString());
+		authUser.setVerified(Integer.parseInt(resultSet.getString(7).toString()));
+		authUser.setPassword(resultSet.getString(6).toString());
 		return authUser;	
 	}
 

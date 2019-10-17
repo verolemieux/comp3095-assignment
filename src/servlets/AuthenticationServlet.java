@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Role;
 import beans.User;
 import dao.UserDao;
+import dao.UserRoleDao;
 import recaptcha.VerifyUtils;
 
 @WebServlet("/Auth")
@@ -51,6 +53,10 @@ public class AuthenticationServlet extends HttpServlet {
 					//set max session under inactivity for 15 minutes
 					session.setMaxInactiveInterval(60*15);
 					User authUser = DBUser.getUser(request.getParameter("username").toString());
+					Role[] userRoles;
+					UserRoleDao getRoles = new UserRoleDao();
+					authUser.setRole(getRoles.getRoles(authUser.getId()));
+					System.out.println(authUser.getRole()[1].getRole());
 					if(authUser.getVerified() == 1)
 					{
 						session.setAttribute("authUser", authUser);
@@ -66,7 +72,6 @@ public class AuthenticationServlet extends HttpServlet {
 							session.setAttribute("LoggedIn", "true");
 							request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 						} else {
-	                        System.out.println("Not verified");
 	                        //If user isn't verified, generates message and button to have email resent
 	                        String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
 	                        String errorMessage2 = String.format("<form action=\"Login\" method=\"post\"><div class=\"p-t-10 buttons-container\">\n" +
