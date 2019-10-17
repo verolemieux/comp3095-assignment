@@ -122,7 +122,15 @@ public class UserDao {
 		}
 		return success;
 	}
-
+	public boolean updateKey(int id, String key) throws Exception
+	{
+		connect = dbConnect.connectDataBase();
+		statement = connect.createStatement();
+		String query = (String.format("UPDATE `users` SET `verificationkey` = '%s' WHERE `users`.`userid` = '%s'", key, id));
+		PreparedStatement preparedStmt = connect.prepareStatement(query);
+		preparedStmt.execute();
+		return true;
+	}
 	public String generateID() throws Exception {
 		int lastId = 0;
 		try {
