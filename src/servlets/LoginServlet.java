@@ -33,7 +33,8 @@ public class LoginServlet extends HttpServlet {
 			if(request.getAttribute("GuestUser").equals("true"))
 			{
 				String errorMessage = "Please log in.";
-				request.setAttribute("errorMessage", errorMessage);
+				request.setAttribute("statusMessage", errorMessage);
+				request.setAttribute("color", "red");
 				request.getRequestDispatcher("login.jsp").include(request, response);
 			}	
 		}
@@ -45,14 +46,16 @@ public class LoginServlet extends HttpServlet {
 			log(request.getParameter("Logout").toString());
 			session.invalidate();
 			String errorMessage = "Logged out successfully.";
-			request.setAttribute("errorMessage", errorMessage);
+			request.setAttribute("statusMessage", errorMessage);
+			request.setAttribute("color", "green");
 			request.getRequestDispatcher("login.jsp").include(request, response);	
 		}	
 		else if("resend".contentEquals(buttonAction))
 		{
 			//if user clicks to resend verification email
 			String errorMessage = "Verification email resent.";
-			request.setAttribute("errorMessage", errorMessage);
+			request.setAttribute("statusMessage", errorMessage);
+			request.setAttribute("color", "green");
 			request.getRequestDispatcher("login.jsp").include(request, response);
 		}
 		else if("login".contentEquals(buttonAction)) {

@@ -12,6 +12,7 @@
 		<div class="alert" style="background-color: <%=request.getAttribute("color")%>; width: 30%">
 			<span class="closebtn" style="cursor:pointer;float:right;" onclick="this.parentElement.style.display='none';">&times;</span>
 			<span><h5>${statusMessage}</h5></span>
+			<span><h5>${statusMessage2}</h5></span>
 		</div>
 	<%}%>
 </body>

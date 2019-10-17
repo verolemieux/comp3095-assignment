@@ -39,7 +39,8 @@ public class AuthenticationServlet extends HttpServlet {
 		if(!valid)
 		{
 			String errorMessage = "Please verify recaptcha.";
-			request.setAttribute("errorMessage", errorMessage);
+			request.setAttribute("statusMessage", errorMessage);
+			request.setAttribute("color", "red");
 			request.getRequestDispatcher("login.jsp").include(request, response);
 			return;
 		}
@@ -56,7 +57,6 @@ public class AuthenticationServlet extends HttpServlet {
 					Role[] userRoles;
 					UserRoleDao getRoles = new UserRoleDao();
 					authUser.setRole(getRoles.getRoles(authUser.getId()));
-					System.out.println(authUser.getRole()[1].getRole());
 					if(authUser.getVerified() == 1)
 					{
 						session.setAttribute("authUser", authUser);
@@ -76,8 +76,9 @@ public class AuthenticationServlet extends HttpServlet {
 	                        String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
 	                        String errorMessage2 = String.format("<form action=\"Login\" method=\"post\"><div class=\"p-t-10 buttons-container\">\n" +
 	                                "<button class=\"btn btn--pill btn--blue\" name=\"button\" value=\"resend\" type=\"submit\">Resend</button></div></form>");
-	                        request.setAttribute("errorMessage", errorMessage);
-	                        request.setAttribute("errorMessage2", errorMessage2);
+	                        request.setAttribute("statusMessage", errorMessage);
+	                        request.setAttribute("statusMessage2", errorMessage2);
+	                        request.setAttribute("color", "red");
 	                        request.getRequestDispatcher("login.jsp").forward(request, response);
 	                    }
 					}
@@ -85,7 +86,8 @@ public class AuthenticationServlet extends HttpServlet {
 				else
 				{
 					String errorMessage = "Invalid username and/or password";
-					request.setAttribute("errorMessage", errorMessage);
+					request.setAttribute("statusMessage", errorMessage);
+					request.setAttribute("color", "red");
 					request.getRequestDispatcher("login.jsp").include(request, response);
 				}
 		} catch (Exception e) {
