@@ -14,6 +14,9 @@
 <div class="alert">
 	<%@ include file="statusAlert.jsp" %>
 </div>
+        <div>
+            <a href='/comp3095Assignment/' style="margin-left:5%;" class="btn btn--pill btn--blue go-back-btn">Go back</a>
+        </div>
         <div class="wrapper wrapper--w780">
             <div class="card card-3">
                 <div class="card-heading">
