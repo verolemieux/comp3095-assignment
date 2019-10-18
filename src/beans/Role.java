@@ -1,5 +1,3 @@
-package beans;
-
 /*********************************************************************************
 * Project: < ABC Financial Institution >
 * Assignment: < 1>
@@ -8,6 +6,8 @@ package beans;
 * Date: October 18, 2019
 * Description: Contains definition for the Role class in the Roles table of the database.
 *********************************************************************************/
+
+package beans;
 
 public class Role {
 	private String role;

@@ -4,7 +4,7 @@
 * Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
 * Student Number: < 101157911, 101106553, 101137768, 101163981>
 * Date: October 18, 2019
-* Description: Handles requests coming through registration channels and validates the information entered by the user. If so, completes registration.
+* Description: Handles requests coming through Register mapping and validates the information entered by the user. If so, completes registration.
 *********************************************************************************/
 
 package servlets;

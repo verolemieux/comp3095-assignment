@@ -254,7 +254,7 @@ public class UserDao {
 /////////// VALIDATE USER INPUT ///////////
 
 	public boolean hasSpecial(String s) {
-		Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		Pattern p = Pattern.compile("[^A-Za-z]");
 		Matcher m = p.matcher(s);
 		boolean b = m.find();
 		if (b) {
