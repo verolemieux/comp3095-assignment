@@ -88,6 +88,10 @@ public class RegistrationServlet extends HttpServlet {
 		} else {
 			color = "red";
 		}
+		request.setAttribute("firstname", firstname);
+		request.setAttribute("lastname", lastname);
+		request.setAttribute("address", address);
+		request.setAttribute("email", email);
 		request.setAttribute("color", color);
 		request.setAttribute("statusMessage", message);
 		request.getRequestDispatcher("registration.jsp").include(request, response);

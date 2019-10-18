@@ -25,17 +25,17 @@
                     <h2 class="title">REGISTRATION</h2>
                     <form action="Register" method="POST">
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="First Name" name="firstname">
+                            <input class="input--style-3" type="text" placeholder="First Name" name="firstname" value="${firstname}">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Last Name" name="lastname">
+                            <input class="input--style-3" type="text" placeholder="Last Name" name="lastname" value="${lastname}">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Address" name="address">
+                            <input class="input--style-3" type="text" placeholder="Address" name="address" value="${address}">
                         </div>
                         
                         <div class="input-group">
-                            <input class="input--style-3" type="email" placeholder="Email" name="email">
+                            <input class="input--style-3" type="email" placeholder="Email" name="email" value="${email}">
                         </div>
                         <div class="input-group">
                             <input class="input--style-3" type="password" placeholder="Password" name="password">

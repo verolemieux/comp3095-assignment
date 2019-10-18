@@ -22,7 +22,7 @@
                     <h2 class="title">LOGIN</h2>
                     <form action="Login" method="post">
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Username" name="username">
+                            <input class="input--style-3" type="text" placeholder="Username" name="username" value=${username}>
                         </div>
                         <div class="input-group">
                             <input class="input--style-3" type="password" placeholder="Password" name="password">

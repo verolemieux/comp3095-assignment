@@ -40,6 +40,8 @@ public class LoginServlet extends HttpServlet {
 			}	
 		}
 		String buttonAction = request.getParameter("button");
+		String username = request.getParameter("username");
+		request.setAttribute("username", username);
 		
 		if(request.getParameter("Logout") != null)
 		{
@@ -56,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 			UserDao userDao = new UserDao();
 			try {
 				//if user clicks to resend verification email
-				User user = userDao.getUser((String) request.getParameter("username"));
+				User user = userDao.getUser(username);
 				userDao.sendEmailVerificationEmail(user);
 				String errorMessage = "Verification email resent.";
 				request.setAttribute("statusMessage", errorMessage);
