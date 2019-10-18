@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -61,6 +63,11 @@ public class AuthenticationServlet extends HttpServlet {
 					{
 						session.setAttribute("authUser", authUser);
 						session.setAttribute("LoggedIn", "true");
+						String verificationKey = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+						System.out.println("Generated key: " + verificationKey);
+						authUser.setVerificationkey(verificationKey);
+						System.out.println("Stored key: " + authUser.getVerificationkey());
+						DBUser.updateKey(authUser.getId(), verificationKey);
 						request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 					}
 					else
