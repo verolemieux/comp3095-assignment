@@ -103,7 +103,8 @@ public class UserDao {
 			String query = "INSERT INTO users (userid, firstname, lastname, address, email, created, verificationkey, verified, password)"
 					+ "values(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
-			preparedStmt.setString(1, generateID());
+			String userId = generateID();
+			preparedStmt.setString(1, userId);
 			preparedStmt.setString(2, firstname);
 			preparedStmt.setString(3, lastname);
 			preparedStmt.setString(4, address);
@@ -112,7 +113,7 @@ public class UserDao {
 			preparedStmt.setString(7, verificationKey);
 			preparedStmt.setInt(8, 0);
 			preparedStmt.setString(9, hashedPassword);
-
+			insertUserRoles(userId);
 			if (preparedStmt.execute()) {
 				success = true;
 			}
@@ -121,6 +122,18 @@ public class UserDao {
 			connect.close();
 		}
 		return success;
+	}
+	
+	public boolean insertUserRoles(String userId) throws Exception
+	{
+		connect = dbConnect.connectDataBase();
+		statement = connect.createStatement();
+		String query = "INSERT INTO userrole (userid, roleid)" + "values(?, ?)";
+		PreparedStatement preparedStmt = connect.prepareStatement(query);
+		preparedStmt.setString(1,  userId);
+		preparedStmt.setString(2,  Integer.toString(1));
+		preparedStmt.execute();
+		return true;
 	}
 	public boolean updateKey(int id, String key) throws Exception
 	{
