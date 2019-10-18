@@ -1,3 +1,16 @@
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106553, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: Handles requests coming through the Auth mapping and ensures users
+* 			   are registered and validated, and provide the correct username and 
+* 			   password; directs user to appropriate pages depending on success/
+* 			   failure
+*********************************************************************************/
+
+
 package servlets;
 
 import java.io.IOException;
@@ -106,9 +119,9 @@ public class AuthenticationServlet extends HttpServlet {
 					request.setAttribute("color", "red");
 					request.getRequestDispatcher("login.jsp").include(request, response);
 				}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

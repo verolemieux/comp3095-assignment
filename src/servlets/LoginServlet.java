@@ -1,3 +1,14 @@
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106553, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: Handles requests coming through the Login mapping and displays
+* 			   different messages to notify user of success/failure; redirects to 
+* 			   AuthenticationServlet for proper authentication
+*********************************************************************************/
+
 package servlets;
 
 import java.io.IOException;

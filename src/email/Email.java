@@ -1,3 +1,13 @@
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106554, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: creates the basic email template as well as the email message for 
+* 			   both emails sent to users (registration and password reset)
+*********************************************************************************/
+
 package email;
 
 import java.io.UnsupportedEncodingException;

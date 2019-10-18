@@ -1,3 +1,12 @@
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106553, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: verifies that the application is not accessed by computer programs
+*********************************************************************************/
+
 package recaptcha;
  
 import java.io.InputStream;
