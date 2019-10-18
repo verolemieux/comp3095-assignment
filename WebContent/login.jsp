@@ -20,8 +20,6 @@
 			<div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">LOGIN</h2>
-                    <h4 class="error">${errorMessage}</h4>
-                    <h5>${errorMessage2}</h5>
                     <form action="Login" method="post">
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="Username" name="username">

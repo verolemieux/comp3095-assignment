@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.User;
 import dao.UserDao;
 import recaptcha.VerifyUtils;
 
@@ -52,11 +53,18 @@ public class LoginServlet extends HttpServlet {
 		}	
 		else if("resend".contentEquals(buttonAction))
 		{
-			//if user clicks to resend verification email
-			String errorMessage = "Verification email resent.";
-			request.setAttribute("statusMessage", errorMessage);
-			request.setAttribute("color", "green");
-			request.getRequestDispatcher("login.jsp").include(request, response);
+			UserDao userDao = new UserDao();
+			try {
+				//if user clicks to resend verification email
+				User user = userDao.getUser((String) request.getParameter("username"));
+				userDao.sendEmailVerificationEmail(user);
+				String errorMessage = "Verification email resent.";
+				request.setAttribute("statusMessage", errorMessage);
+				request.setAttribute("color", "green");
+				request.getRequestDispatcher("login.jsp").include(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else if("login".contentEquals(buttonAction)) {
 			request.getRequestDispatcher("Auth").include(request, response);

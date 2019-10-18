@@ -74,8 +74,9 @@ public class AuthenticationServlet extends HttpServlet {
 						} else {
 	                        //If user isn't verified, generates message and button to have email resent
 	                        String errorMessage = String.format("A verification email has been sent to %s. Please verify your email.", authUser.getEmail());
-	                        String errorMessage2 = String.format("<form action=\"Login\" method=\"post\"><div class=\"p-t-10 buttons-container\">\n" +
-	                                "<button class=\"btn btn--pill btn--blue\" name=\"button\" value=\"resend\" type=\"submit\">Resend</button></div></form>");
+	                        String errorMessage2 = String.format("<form action=\"Login\" method=\"post\"><div class=\"p-t-10 buttons-container\">\n"
+	                        		+ "<button class=\"btn btn--pill btn--blue\" name=\"button\" value=\"resend\" type=\"submit\">Resend</button>"
+	                        		+ "</div><input type=\"hidden\" name=\"username\" value=\"" + authUser.getEmail() + "\"></form>");
 	                        request.setAttribute("statusMessage", errorMessage);
 	                        request.setAttribute("statusMessage2", errorMessage2);
 	                        request.setAttribute("color", "red");

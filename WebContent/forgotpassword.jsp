@@ -20,7 +20,6 @@
 			<div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">FORGOT PASSWORD</h2>
-                    <h4 class="error">${forgotPasswordMessage}</h4>
                     <form action="Reset" method="post">
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="Username" name="username">
