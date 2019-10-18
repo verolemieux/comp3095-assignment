@@ -12,7 +12,7 @@
 <body>
 <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins" style="min-width:165px;">
 	<div class="wrapper wrapper--w780">
-	<%@ include file="navigation.jsp" %>
+	<%@ include file="navigation.jsp" %>	
 <br>
 <h2 style="text-align:center;">DASHBOARD</h2>
 <br>
