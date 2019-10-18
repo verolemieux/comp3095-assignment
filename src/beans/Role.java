@@ -1,5 +1,14 @@
 package beans;
 
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106554, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: Contains definition for the Role class in the Roles table of the database.
+*********************************************************************************/
+
 public class Role {
 	private String role;
 	int id;

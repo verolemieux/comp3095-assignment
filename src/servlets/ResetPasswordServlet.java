@@ -1,3 +1,13 @@
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106553, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: Handles requests coming through the Reset mapping. If user has not had the email generated to reset password, generates it. 
+* Otherwise validates reset key and username, as well as password contents, to determine if password reset can be completed. 
+*********************************************************************************/
+
 package servlets;
 
 import java.io.IOException;

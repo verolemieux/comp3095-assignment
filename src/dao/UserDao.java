@@ -1,3 +1,12 @@
+/*********************************************************************************
+* Project: < ABC Financial Institution >
+* Assignment: < 1>
+* Author(s): < Jeremy Thibeau, Veronyque Lemieux, Sergio Lombana, Ian Miranda>
+* Student Number: < 101157911, 101106553, 101137768, 101163981>
+* Date: October 18, 2019
+* Description: Interacts with the Users table of the database.
+*********************************************************************************/
+
 package dao;
 
 import java.math.BigInteger;
