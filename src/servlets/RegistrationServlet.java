@@ -46,6 +46,10 @@ public class RegistrationServlet extends HttpServlet {
 				isValid = false;
 				message += var_names[i] + " cannot be empty.<br>";
 			}
+			if(params[i].length() > 255)
+			{
+				message += var_names[i] + " is too long, please shorten it.<br>";
+			}
 		}
 		try {
 			if(user.userExists(email))

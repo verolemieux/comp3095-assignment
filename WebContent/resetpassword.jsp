@@ -20,7 +20,7 @@
 			<div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">RESET PASSWORD</h2>
-                    <form action="Reset" method="get">
+                    <form action="Reset" method="post">
                         <div class="input-group">
                             <input class="input--style-3" type="text" placeholder="Username" name="username">
                         </div>

@@ -47,6 +47,8 @@ public class ResetPasswordServlet extends HttpServlet {
 				} else {
 					//completes password reset
 					user.resetPassword(username, newPassword);
+					request.setAttribute("statusMessage",  "Password reset. Please login.");
+					request.setAttribute("color", "green");
 					request.getRequestDispatcher("login.jsp").include(request, response);
 				}
 			} catch (Exception e) {
