@@ -69,9 +69,11 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 		else if("login".contentEquals(buttonAction)) {
+			//if user clicked to login
 			request.getRequestDispatcher("Auth").include(request, response);
 		}	
 		else if("register".contentEquals(buttonAction)) {
+			//if user clicked to register
 			request.getRequestDispatcher("registration.jsp").forward(request, response);
 		}	
 	}

@@ -26,21 +26,26 @@ public class ResetPasswordServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String key = request.getParameter("key");
 		if (key != null) {
+			//if user clicks link in password reset email
 			String newPassword = request.getParameter("newPassword");
 			try {
 				if (!user.userExists(username)) {
+					//checks for username being correct
 					request.setAttribute("statusMessage", "Invalid Username");
 					request.setAttribute("color", "red");
 					request.getRequestDispatcher("resetpassword.jsp").include(request, response);
 				} else if (!user.keyMatchesUser(username, key)) {
+					//checks to ensure key matches key generated to email
 					request.setAttribute("statusMessage", "Check your email for the link to reset your password");
 					request.setAttribute("color", "red");
 					request.getRequestDispatcher("resetpassword.jsp").include(request, response);
 				} else if (!user.isPasswordValid(newPassword)) {
+					//validates password matches criteria
 					request.setAttribute("statusMessage", "Your password must be 6-12 characters in length, and must contain at least 1 uppercase letter and 1 special character");
 					request.setAttribute("color", "red");
 					request.getRequestDispatcher("resetpassword.jsp").include(request, response);
 				} else {
+					//completes password reset
 					user.resetPassword(username, newPassword);
 					request.getRequestDispatcher("login.jsp").include(request, response);
 				}
@@ -48,6 +53,7 @@ public class ResetPasswordServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		} else {
+			//if user clicks on reset password
 			try {
 				if (user.userExists(username)) {
 					user.sendResetPasswordEmail(user.getUser(username));

@@ -16,7 +16,7 @@
 	<div class="box">
 		<h1 style="text-align:center;"><span>&#9888;</span> Error <span>&#9888;</span></h1>
 		Sorry, the page you requested cannot be found. Please click below to be redirected.
-		
+<!--  if there is an error redirects user to either dashboard if logged in, or login page if not -->
 		<form action="dashboard.jsp" method="post">
 			<div class="p-t-10 buttons-container">
             	<button class="btn btn--pill btn--blue" name="button" type="submit">Redirect</button>

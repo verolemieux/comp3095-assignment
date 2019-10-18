@@ -24,6 +24,7 @@ public class RegistrationServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//sanitize input
 		String firstname = request.getParameter("firstname");
 		String lastname = request.getParameter("lastname");
 		String address = request.getParameter("address");
@@ -39,6 +40,7 @@ public class RegistrationServlet extends HttpServlet {
 		boolean isValid = true;
 		UserDao user = new UserDao();
 
+		//error message
 		for (int i = 0; i < params.length; i++) {
 			if (user.isEmpty(params[i])) {
 				isValid = false;
@@ -48,6 +50,7 @@ public class RegistrationServlet extends HttpServlet {
 		try {
 			if(user.userExists(email))
 			{
+				//if email already taken
 				isValid = false;
 				message += "This email address is already taken.<br>";
 			}
@@ -55,28 +58,34 @@ public class RegistrationServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 		if (user.hasSpecial(firstname) || user.hasSpecial(lastname)) {
+			//checks for special characters
 			isValid = false;
 			message += "Your first and last name must contain only letters.<br>";
 		}
 		if (!user.isEmailValid(email)) {
+			//checks for valid email address
 			isValid = false;
 			message += "You must enter a valid email address.<br>";
 		}
 		if (!user.isPasswordValid(password)) {
+			//checks if password matches criteria
 			isValid = false;
 			message += "Your password must be 6-12 characters in length, and must contain "
 					+ "at least 1 uppercase letter and 1 special character.<br>";
 		}
 		if (!password.equals(passwordConfirm)) {
+			//check for password match
 			isValid = false;
 			message += "Your passwords don't match.<br>";
 		}
 		if (request.getParameter("agree_check") == null) {
+			//check for terms of service agreement
 			isValid = false;
 			message += "You must agree to our terms of service.<br>";
 		}
 		if (isValid) {
 			try {
+				//if all entries valid inserts to DB
 				user.insertDB(firstname, lastname, address, email, verificationKey, password);
 				message += "Successfully Registered User<br>An Email has been sent to " + email
 						+ ". Please check your email to verify and confirm";
@@ -88,6 +97,7 @@ public class RegistrationServlet extends HttpServlet {
 		} else {
 			color = "red";
 		}
+		//stick form
 		request.setAttribute("firstname", firstname);
 		request.setAttribute("lastname", lastname);
 		request.setAttribute("address", address);

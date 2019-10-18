@@ -75,7 +75,7 @@ public class UserDao {
 
 	public User getUser(String email) throws Exception
 	{
-		//pulls a User object from the database
+		//pulls a User object from the database and return it
 		connect = dbConnect.connectDataBase();
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(String.format("SELECT userid, firstname, lastname, address, email, password, verified, verificationkey FROM users WHERE email ='%s'", email));
@@ -96,10 +96,10 @@ public class UserDao {
 			throws Exception {
 		boolean success = false;
 		try {
+			//hash password input by user
 			String hashedPassword = generatePassword(password);
 			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
-			System.out.println("testing");
 			String query = "INSERT INTO users (userid, firstname, lastname, address, email, created, verificationkey, verified, password)"
 					+ "values(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement preparedStmt = connect.prepareStatement(query);
@@ -109,10 +109,12 @@ public class UserDao {
 			preparedStmt.setString(3, lastname);
 			preparedStmt.setString(4, address);
 			preparedStmt.setString(5, email);
+			//get current time
 			preparedStmt.setTimestamp(6,java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
 			preparedStmt.setString(7, verificationKey);
 			preparedStmt.setInt(8, 0);
 			preparedStmt.setString(9, hashedPassword);
+			//inputs user into UserRoles table as a client
 			insertUserRoles(userId);
 			if (preparedStmt.execute()) {
 				success = true;
@@ -126,6 +128,7 @@ public class UserDao {
 	
 	public boolean insertUserRoles(String userId) throws Exception
 	{
+		//inserts the user into UserRoles table as a Client, can be refactored in future enhancement to allow for different user Role
 		connect = dbConnect.connectDataBase();
 		statement = connect.createStatement();
 		String query = "INSERT INTO userrole (userid, roleid)" + "values(?, ?)";
@@ -137,6 +140,7 @@ public class UserDao {
 	}
 	public boolean updateKey(int id, String key) throws Exception
 	{
+		//updates key in database for user
 		connect = dbConnect.connectDataBase();
 		statement = connect.createStatement();
 		String query = (String.format("UPDATE `users` SET `verificationkey` = '%s' WHERE `users`.`userid` = '%s'", key, id));
@@ -145,6 +149,7 @@ public class UserDao {
 		return true;
 	}
 	public String generateID() throws Exception {
+		//generates a unique userID
 		int lastId = 0;
 		try {
 			String temp = "";
@@ -171,6 +176,7 @@ public class UserDao {
 /////////// HASH PASSWORD ///////////
 
 	public String generatePassword(String password) throws NoSuchAlgorithmException, InvalidKeyException {
+		//hashes password
 		String generatePasswordhash = "";
 		byte[] hash;
 		int iterations = 1000; // How many iteration of the algorithm would take to guess the hashed password
@@ -183,7 +189,6 @@ public class UserDao {
 			hash = skf.generateSecret(spec).getEncoded();
 			generatePasswordhash = iterations + ":" +toHex(salt) + ":" + toHex(hash); //It adds the iterations and the salt together
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return generatePasswordhash;
@@ -280,6 +285,7 @@ public class UserDao {
 	}
 	
 	public boolean keyMatchesUser(String username, String key) throws Exception {
+		//checks if key matches key from database
 		if(userExists(username))
 		{
 			try {
@@ -306,6 +312,7 @@ public class UserDao {
 	}
 	
 	public boolean verifyEmail(User user, String key) throws Exception {
+		//updates status in database for user to verified
 		boolean success = false;
 		try {			
 			connect = dbConnect.connectDataBase();
@@ -324,11 +331,13 @@ public class UserDao {
 /////////// RESET PASSWORD ///////////
 
 	public void sendResetPasswordEmail(User user) {
+		//generates reset password email for a user
 		Email email = new Email();
 		email.createResetPasswordMessageEmail(user);
 	}
 
 	public boolean resetPassword(String username, String password) throws Exception {
+		//updates password in db
 		boolean success = false;
 		try {
 			connect = dbConnect.connectDataBase();

@@ -20,7 +20,7 @@ public class Email {
 	}
 
     public void createEmail(String username, String subjectText, String messageText) {
-
+    	//template for email creation
         final String myUsername = "abcfinancialinstitution@gmail.com";
         final String myPassword = "comp3095";
 
@@ -51,6 +51,7 @@ public class Email {
     }
     
     public void createResetPasswordMessageEmail(User user) {
+    	//creates password reset email
     	String subjectText = "Reset Your Password";
     	String messageText = "Hi " + user.getFirstname() + ",<br><br>"
     			+ "Click "
@@ -62,6 +63,7 @@ public class Email {
     }
     
     public void createRegistrationMessageEmail(User user) {
+    	//creates email for registration verification
     	String subjectText = "Verify Your Email";
     	String messageText = "Hi " + user.getFirstname() + ",<br><br>"
     			+ "Thank you for registering with ABC Financial Institution!<br><br>"

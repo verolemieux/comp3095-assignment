@@ -17,8 +17,8 @@ public class UserRoleDao {
 	private DBstring dbConnect = new DBstring();
 	
 	
-	public boolean insertDB(User insertUser, Role insertRole)
-			throws Exception {
+	public boolean insertDB(User insertUser, Role insertRole) throws Exception {
+		//inserts User + Role combo into DB
 		boolean success = false;
 		try {
 			
@@ -50,8 +50,6 @@ public class UserRoleDao {
 			resultSet = statement.executeQuery(String.format("SELECT count(*) FROM userrole WHERE userid ='%s'", userId));
 			resultSet.next();
 			int numRows = resultSet.getInt(1);
-			//debug code
-			System.out.println("Number of roles by this user: " + numRows);
 			
 			//count how many roles are in database
 			ResultSet resultSetallRoles = statement.executeQuery(String.format("SELECT count(*) FROM roles"));
@@ -71,7 +69,7 @@ public class UserRoleDao {
 				indexAllRoles++;
 			}
 			
-			//
+			//put all roles that match the User ID into an array and return that array, this will never return 0
 			Role[] DBRoles = new Role[numRows];
 			ResultSet resultSet2 = statement.executeQuery(String.format("SELECT roleid FROM userrole WHERE userid ='%s'", userId));
 			int index = 0;
@@ -83,8 +81,6 @@ public class UserRoleDao {
 				//fill the role ID from this row, which corresponds to the index searched
 				ArrayRole.setId(Integer.parseInt(resultSet2.getString(1)));
 				ArrayRole.setRole(allRoles[indexSearch].getRole());
-				//debug code
-				System.out.println("RoleID: " + ArrayRole.getId() + " Role name: " + ArrayRole.getRole());
 				DBRoles[index] = ArrayRole;
 				index++;
 			}
@@ -94,7 +90,6 @@ public class UserRoleDao {
 		} finally {
 			connect.close();
 		}
-		//return null;
 	}
 	public int findIndex(Role[] role, int roleid)
 	{

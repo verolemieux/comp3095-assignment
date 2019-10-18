@@ -19,6 +19,7 @@ public class RoleDao {
 
 	public Role getRole(int id) throws Exception {
 		try {
+			//gets a role from the Roles table and returns it
 			connect = dbConnect.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery(String.format("SELECT role FROM roles WHERE roleid ='%s'", id));

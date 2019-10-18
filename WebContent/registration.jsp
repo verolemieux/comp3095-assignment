@@ -14,13 +14,9 @@
 <div class="alert">
 	<%@ include file="statusAlert.jsp" %>
 </div>
-        <div>
-            <a href='/comp3095Assignment/' style="margin-left:5%;" class="btn btn--pill btn--blue go-back-btn">Go back</a>
-        </div>
         <div class="wrapper wrapper--w780">
             <div class="card card-3">
-                <div class="card-heading">
-                </div>
+                <div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">REGISTRATION</h2>
                     <form action="Register" method="POST">
@@ -47,9 +43,10 @@
                         	<input type="checkbox" name="agree_check" class="checkbox">
 						    <label class="checkbox_label p-white" for="exampleCheck1">I agree to the terms of service</label>
 						 </div>
-                        <div>
+                        <div class="p-t-10 buttons-container">
                             <button class="btn btn--pill btn--blue" type="submit">Register</button>
-                        </div>
+                       		<a href='/comp3095Assignment/' class="btn btn--pill btn--blue go-back-btn">Back</a>
+           			   </div>
                     </form>
                 </div>
             </div>
